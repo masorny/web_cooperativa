@@ -20,11 +20,7 @@
 
      ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222794701955010570/image.png?ex=6617834f&is=66050e4f&hm=242521244e239e26dccf63c0f4a518a1a8978598ea4aca5094233838290bc1bb&)
 
-     Una vez abierto, el programa desplegará esta ventana
-
-     ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222795174359339048/image.png?ex=661783c0&is=66050ec0&hm=30b87d817ac85c077ad9beadefc48931789618d16d2468fba504feac4e68b8ce&)
-
-     Habilitamos las opciones marcadas
+     Una vez abierto, el programa desplegará esta ventana. Habilitamos las opciones marcadas
 
      ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222795903870566470/image.png?ex=6617846d&is=66050f6d&hm=bfa601a5ff66f7ce69410e664eaececf69d95d5d9409f61052a986cb8a0b7c5e&)
 
