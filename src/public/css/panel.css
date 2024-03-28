@@ -1,0 +1,307 @@
+body {
+    background-color: rgba(200, 130, 50, 1);
+}
+
+.main, .load, .search, .obl-societarias {
+    width: 100%;
+    display: none;
+}
+
+.focus {
+    display: block;
+}
+
+.container-header {
+    width: 100%;
+    height: 75px;
+    background-color: rgba(220, 150, 70, 1);
+    display: grid;
+    grid-template-columns: 300px calc(100% - 300px);
+    grid-template-areas: "logo nav";
+}
+
+.container-header-logo {
+    grid-area: logo;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-header-logo img {
+    max-width: 100%;
+    max-height: 75%;
+}
+
+.container-header-navs {
+    grid-area: nav;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-header-nav {
+    width: 150px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.03125rem;
+    color: black;
+    cursor: pointer;
+}
+
+.container-header-nav:hover div {
+    border-bottom: 5px solid orange;
+    user-select: none;
+}
+
+.container-header-nav:active div {
+    color: white;
+    border-bottom: 5px solid orange;
+    user-select: none;
+    transform: translateY(5px);
+}
+
+.container-header-nav-focus {
+    color: white;
+    border-bottom: 5px solid orange;
+}
+
+.container {
+    width: 100%;
+    display: grid;
+    margin-top: 100px;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 40px 200px 250px 200px;
+    grid-template-areas: "welcome image" "welcome-phrase image" "text1 text1" "text2 text2";
+}
+
+.container-welcome {
+    font-size: 2rem;
+    grid-area: welcome;
+    color: white;
+    font-weight: 650;
+    transform: translateY(-25px);
+}
+
+.container-image {
+    grid-area: image;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.container-image img {
+    transform: translateY(33.33px);
+    border-radius: 5px;
+    box-shadow: 0 0 5px white;
+}
+
+.container-welcome-phrase {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    grid-area: welcome-phrase;
+    display: flex;
+    align-items: flex-end;
+    border-top-left-radius: 10px;
+}
+
+.container-text1 {
+    grid-area: text1;
+    display: flex;
+    align-items: center;
+}
+
+.container-text2 {
+    grid-area: text2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.container-image, .container-welcome-phrase, .container-text1, .container-text2 {
+    background-color: rgba(220, 150, 70, 1);
+    color: white;
+}
+
+.container-text1, .container-text2 {
+    padding: 0 20px 0 20px;
+}
+
+.load-form {
+    height: 300px !important;
+}
+
+.container-form-load {
+    grid-area: welcome-phrase / text1 / text2;
+    background-color: rgba(220, 150, 70, 1);
+    color: white;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-template-rows: 70% 5%;
+    grid-template-areas: "detail detail detail" "tool tool tool" "operation operation operation";
+}
+
+/* .container-form {
+    grid-area: welcome-phrase / text1 / text2;
+    background-color: rgba(220, 150, 70, 1);
+    color: white;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-template-rows: 45% 10% 45%;
+    grid-template-areas: "detail detail detail" "tool tool tool" "operation operation operation";
+} */
+
+
+.container-form-photo {
+    grid-area: photo;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-photo-content {
+    width: 250px;
+    height: 250px;
+    border: 1px solid white;
+    box-shadow: 0 0 5px white;
+}
+
+.container-form-details {
+    grid-area: detail;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 20% 20% 20%;
+    grid-template-areas: "name last" "phone dni" "address address";
+    place-items: center;
+    transform: translateY(25px);
+}
+
+.container-form-create {
+    grid-area: operation / tool;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 25px;
+}
+
+.container-form-create button {
+    width: 500px;
+}
+
+#crear-campo-nombre {
+    grid-area: name;
+}
+
+#crear-campo-apellido {
+    grid-area: last;
+}
+
+#crear-campo-telefono {
+    grid-area: phone;
+}
+
+#crear-campo-cedula {
+    grid-area: dni;
+}
+
+#crear-campo-direccion {
+    grid-area: address;
+}
+
+#crear-campo-nombre,
+#crear-campo-apellido, 
+#crear-campo-telefono,
+#crear-campo-cedula,
+#buscar-campo-nombre,
+#buscar-campo-apellido, 
+#buscar-campo-telefono,
+#crear-campo-deuda,
+#buscar-campo-cedula {
+    width: 95%;
+    height: 62.5%;
+}
+
+#crear-campo-direccion {
+    width: 97.5%;
+    height: 62.5%;
+}
+
+#buscar-campo-direccion {
+    width: 195%;
+    height: 62.5%;
+    transform: translateX(25.6%);
+}
+
+.aviso {
+    --espaciado: 20px;
+
+    width: 400px;
+    min-height: 50px;
+    background: white;
+    position: absolute;
+    margin-top: var(--espaciado);
+    margin-left: var(--espaciado);
+    border-radius: 10px;
+    background-color: rgb(255, 50, 50);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    color: white;
+
+    display: grid;
+    grid-template-columns: 15% 85%;
+
+    transform: translateX(-120%);
+    transition: transform 0.25s ease-in-out;
+}
+
+.aviso-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+}
+
+.aviso-texto {
+    display: flex;
+    align-items: center;
+    font-size: 1.125rem;
+    word-break: break-all;
+    padding: 10px;
+}
+
+.aviso-activo {
+    transform: translateY(0);
+}
+
+.container-form-search {
+    display: flex;
+}
+/* "welcome image" "welcome-phrase image" "text1 text1" "text2 text2" */
+.container-form-details-search {
+    height: 100%;
+    background-color: rgba(220, 150, 70, 1);
+    grid-area: welcome-phrase / text2;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 25% 25% 25% 25%;
+    grid-template-areas: "name last" "phone dni" "address address";
+    place-items: center;
+    transform: translateY(25px);
+}
+
+.container-form-details-search-2 {
+    height: 100%;
+    background-color: rgba(220, 150, 70, 1);
+    grid-area: welcome-phrase / text2;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 20% 20% 20%;
+    grid-template-areas: "name last" "phone dni" "address address";
+    place-items: center;
+    transform: translateY(25px);
+}

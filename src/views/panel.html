@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/panel.css">
+    <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
+    <title>Panel de Funcionario</title>
+</head>
+<body>
+    <div class="aviso">
+        <div class="aviso-icono">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="aviso-texto">
+            xd
+        </div>
+    </div>
+    <div class="container-header">
+        <div class="container-header-logo">
+            <img src="../img/logo.png">
+        </div>
+        <div class="container-header-navs">
+            <div class="container-header-nav">
+                <div class="header-nav">Inicio</div>
+            </div>
+            <div class="container-header-nav">
+                <div class="header-nav">Cargar Socio</div>
+            </div>
+            <div class="container-header-nav">
+                <div class="header-nav">Buscar Socio</div>
+            </div>
+            <div class="container-header-nav">
+                <div class="header-nav">Obligaciones societarias</div>
+            </div>
+            <div class="container-header-nav" id="cerrar-sesion">
+                <div class="header-nav">Cerrar Sesión</div>
+            </div>
+        </div>
+    </div>
+    <div class="main focus">
+        <div class="container">
+            <div class="container-welcome">
+                Bienvenido, <%= userSession %>!
+            </div>
+            <div class="container-image">
+                <img src="../img/motivacion-foto.png">
+            </div>
+            <div class="container-welcome-phrase">Juntos, como funcionarios, construimos el camino hacia un futuro mejor, donde la cooperación es nuestro motor y la solidaridad, nuestro cimiento. ¡Avanzamos unidos hacia el éxito colectivo!</div>
+            <div class="container-text1">
+                Para acceder a la pestaña "Cargar socio" en la plataforma de la cooperativa, dirígete a la barra de navegación principal. Una vez allí, se desplegará un formulario que solicitará la información requerida. Completa los campos del formulario con los datos del nuevo socio, incluyendo la foto, nombres y apellidos, cédula de identidad, teléfono, correo y dirección. Asegúrate de proporcionar la información correcta y completa para agilizar el proceso de registro del nuevo miembro en la cooperativa.
+            </div>
+            <div class="container-text2">
+                Para acceder a la pestaña "Buscar socio" en la plataforma de la cooperativa, dirígete a la barra de navegación principal. Al seleccionar la opción, se desplegará un formulario que permite la búsqueda y edición de información de socios existentes. Completa los campos del formulario con los datos del socio que deseas editar, como la foto, nombres y apellidos, cédula de identidad, teléfono, correo y dirección. Asegúrate de guardar los cambios una vez realizadas las ediciones pertinentes para actualizar la información del socio en la base de datos de la cooperativa.
+            </div>
+        </div>
+    </div>
+    <div class="load">
+        <div class="container">
+            <div class="container-welcome">
+                Cargar Socio
+            </div>
+            <div class="container-form-load load-form">
+                <div class="container-form-details">
+                    <input type="text" class="form-control" placeholder="Nombres" id="crear-campo-nombre">
+                    <input type="text" class="form-control" placeholder="Apellidos" id="crear-campo-apellido">
+                    <input type="text" class="form-control" placeholder="Telefono" id="crear-campo-telefono">
+                    <input type="text" class="form-control" placeholder="Cedula" id="crear-campo-cedula">
+                    <input type="text" class="form-control" placeholder="Direccion" id="crear-campo-direccion">
+                    <input type="text" class="form-control" placeholder="Deuda de aporte" id="crear-campo-deuda">
+                </div>
+                <div class="container-form-create">
+                    <button class="btn btn-primary" id="cargar-socio">Cargar socio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search">
+        <div class="container">
+            <div class="container-welcome">
+                Buscar Socio
+            </div>
+            <div class="container-form-search">
+                <input type="text" class="form-control" placeholder="Cedula" id="buscar-cedula">
+                <button class="btn btn-primary" id="buscar-socio">Buscar</button>
+            </div>
+            <div class="container-form-details-search">
+                <input type="text" class="form-control" placeholder="Nombres" id="buscar-campo-nombre">
+                <input type="text" class="form-control" placeholder="Apellidos" id="buscar-campo-apellido">
+                <input type="text" class="form-control" placeholder="Telefono" id="buscar-campo-telefono">
+                <input type="text" class="form-control" placeholder="Cedula" id="buscar-campo-cedula">
+                <input type="text" class="form-control" placeholder="Direccion" id="buscar-campo-direccion">
+                <br>
+                <div class="socio-info" style="color: white;">
+                    
+                </div>
+                <button class="btn btn-danger" id="eliminar-socio">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    <div class="obl-societarias">
+        <div class="container">
+            <div class="container-welcome">
+                Cargar aporte
+            </div>
+            <style>
+                .formulario {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 10px;
+                    max-width: 400px;
+                    margin: 0 auto;
+                }
+        
+                .formulario label {
+                    grid-column: 1 / 2;
+                }
+        
+                .formulario input, .formulario select {
+                    grid-column: 2 / 3;
+                    width: 100%;
+                    padding: 5px;
+                }
+            </style>
+            <div class="container-form-details-search-2">
+                <label for="cedula" style="color: white; font-weight: 500;">Cédula:</label>
+                <input type="text" id="aporte-cedula" name="cedula">
+        
+                <label for="aporte" style="color: white; font-weight: 500;">Aporte:</label>
+                <input type="text" id="aporte-aporte" name="aporte">
+        
+                <label for="saldo" style="color: white; font-weight: 500;">Saldo:</label>
+                <input type="text" id="aporte-saldo" name="saldo">
+
+                <label for="deuda" style="color: white; font-weight: 500;">Deuda:</label>
+                <input type="text" id="aporte-deuda" name="saldo">
+        
+                <label for="fechaCubierta" style="color: white; font-weight: 500;">Fecha Cubierta:</label>
+                <input type="date" id="aporte-fechaCubierta" name="fechaCubierta">
+
+                <button class="btn btn-primary" id="cargar-aporte">Guardar</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/panel.js"></script>
+</html>
