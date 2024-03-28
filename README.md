@@ -51,5 +51,24 @@
      Una vez ejecutado, si no aparece ningún cuadro rojo con título `Error` en la parte inferior de la sentencia, significa que la ejecución se completó correctamente.
 
 4. Descarga este proyecto
-   - Puedes descargar este proyecto 
-   
+   - Puedes descargar este proyecto como ZIP de esta manera:
+
+     ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222802891513790495/image.png?ex=66178aef&is=660515ef&hm=3fcdc9a12fb28fa84f1d6ccbf97d5da156b6ca11955dc30eac17b5ed5381baff&)
+
+     Descomprima el ZIP donde desee.
+
+   - O bien, si tienes `Git` instalado en su equipo, cree una carpeta donde desee y copie la dirección de la carpeta.
+
+     ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222803857550217396/image.png?ex=66178bd6&is=660516d6&hm=54b18041032d19ecaf3dfd336f5d2b38a4de3669ed1e32f273b238d45e33960b&)
+
+     Abre el `cmd` y escriba `cd <SU DIRECCION de CARPETA>`, en mi caso será `cd C:\Users\Adrian MR\Desktop\proyecto`.
+     Una vez en su carpeta desde el cmd, ejecute la sentencia `git clone https://github.com/masorny/web_cooperativa.git`  
+       
+     ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222804358681460797/image.png?ex=66178c4d&is=6605174d&hm=30e6d47516b98436ee306a0d9e48a12cb2e2b0a77a28b53ca36a5fa2f50fc9ff&)
+
+     Y en su carpeta tendrá la carpeta `web_cooperativa` con todos sus archivos:  
+       
+     ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222804838656507924/image.png?ex=66178cc0&is=660517c0&hm=fed6d36701fea6d70927c8edc39988360e6e436fb3262195925b1aed6b4786d6&)
+
+5. Ejecución
+   - Una vez descargado los archivos con una de las dos formas, ejecute el archivo `start.bat`:
