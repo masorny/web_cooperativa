@@ -71,4 +71,6 @@
      ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222804838656507924/image.png?ex=66178cc0&is=660517c0&hm=fed6d36701fea6d70927c8edc39988360e6e436fb3262195925b1aed6b4786d6&)
 
 5. Ejecución
-   - Una vez descargado los archivos con una de las dos formas, ejecute el archivo `start.bat`:
+   - Una vez descargado los archivos con una de las dos formas, ejecute el archivo `install-modules.bat`
+   - Al finalizar la instalación, proceda a ejecutar el archivo `start.bat`
+   - Al ingresar al inicio de la página, utilice el usuario `adrian` con contraseña `adrian123` para ingresar

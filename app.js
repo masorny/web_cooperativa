@@ -25,5 +25,5 @@ installAPI(server);
 dbUtils.makeConnection().catch(err => console.log(err));
 
 server.listen(server.get("PORT"), () => {
-    console.log(`Ingrese en el navegador "localhost:${server.get("PORT")}"`);
+    console.log(`\n\n\n\n\n\nIngrese en el navegador la siguiente URL: "localhost:${server.get("PORT")}"`);
 });
