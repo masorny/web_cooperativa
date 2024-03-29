@@ -46,6 +46,8 @@
 
      Pega la sentencia SQL en el campo y hacer click en `Continuar` o presionar `CTRL + Enter` para ejecutar código.
 
+     **La sentencia SQL se encuentra en la carpeta `src/db/db.sql` del repositorio**
+
      ![x](https://cdn.discordapp.com/attachments/1222793105183346790/1222801286856970281/image.png?ex=66178971&is=66051471&hm=94b92412bdf7143881d2c121c06a2fba4b10d58bd1d55fef1f3d9fa5d4c79f0f&)
 
      Una vez ejecutado, si no aparece ningún cuadro rojo con título `Error` en la parte inferior de la sentencia, significa que la ejecución se completó correctamente.
