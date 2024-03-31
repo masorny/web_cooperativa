@@ -1,9 +1,3 @@
-const error_defs = {
-    USER_NOT_FOUND: "Funcionario no encontrado.",
-    INVALID_PASSWORD: "Contraseña no válida.",
-    NO_CREDENTIALS: "No has ingresado ningún parámetro."
-};
-
 // El usuario tocó el boton "INICIAR SESION"
 // Validar datos desde el servidor.
 $("#boton-iniciar-sesion").click(function(e) {

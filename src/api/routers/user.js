@@ -10,23 +10,18 @@ console.log("Loading user api");
 handler.get("/api/user", async (request, response) => {
     const { userPrompt, pwdPrompt } = request.query;
 
-    if (!userPrompt && !pwdPrompt) {
-        return response.status(400).send("NO_CREDENTIALS");
-    }
-
-    console.log(`SELECT * FROM t_user WHERE Name = '${userPrompt}'`)
+    if (!userPrompt && !pwdPrompt)
+        return response.status(400).send("No has ingresado el usuario ni la contraseña.");
 
     const [ data ] = await client.query(`SELECT * FROM t_user WHERE Name = '${userPrompt}'`);
 
-    if (!data) {
-        return response.status(404).send("USER_NOT_FOUND");
-    }
+    if (!data)
+        return response.status(404).send("No se ha encontrado el usuario.");
 
     const pwd = data.Pwd;
 
-    if (pwd !== pwdPrompt) {
-        return response.status(401).send("INVALID_PASSWORD");
-    }
+    if (pwd !== pwdPrompt)
+        return response.status(401).send("La contraseña no es válida");
 
     appendSession(data.Name);
     
@@ -36,13 +31,11 @@ handler.get("/api/user", async (request, response) => {
 handler.get("/api/user-end-session", (request, response) => {
     const { currentUser } = request.query;
 
-    if (!currentUser) {
+    if (!currentUser)
         return response.status(400).send("NO_USER_PROVIDED");
-    }
 
-    if (hasSession(currentUser)) {
+    if (hasSession(currentUser))
         revokeSession(currentUser);
-    }
 
     response.status(200).send("OK");
 });
