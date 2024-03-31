@@ -3,7 +3,7 @@
 $("#boton-iniciar-sesion").click(function(e) {
     const datosAEnviar = {
         userPrompt: $("#campo-usuario").val(), 
-        pwdPrompt: $("campo-password").val()
+        pwdPrompt: $("#campo-password").val()
     };
 
     $.ajax({
