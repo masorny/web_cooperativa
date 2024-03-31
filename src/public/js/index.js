@@ -9,8 +9,6 @@ const error_defs = {
     NO_CREDENTIALS: "No has ingresado ningún parámetro."
 };
 
-// hola
-
 buttonIniciarSesion.addEventListener("click", e => {
     $.ajax({
         type: "GET",
