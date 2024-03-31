@@ -28,6 +28,6 @@ function enviarAlPanel() {
 
 // Muestra el aviso de error en la pantalla de login
 function mostrarError(err) {
-    $(".aviso-texto", ".aviso").html(error_defs[err.responseText]);
+    $(".aviso-texto", ".aviso").html(err.responseText);
     $(".aviso").addClass("aviso-activo");
 }
