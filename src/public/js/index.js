@@ -2,8 +2,8 @@
 // Validar datos desde el servidor.
 $("#boton-iniciar-sesion").click(function(e) {
     const datosAEnviar = {
-        userPrompt: $("#campo-usuario").attr("value"), 
-        pwdPrompt: $("campo-password").attr("value")
+        userPrompt: $("#campo-usuario").val(), 
+        pwdPrompt: $("campo-password").val()
     };
 
     $.ajax({
