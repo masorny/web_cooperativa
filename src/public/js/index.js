@@ -1,33 +1,39 @@
-const buttonIniciarSesion = document.getElementById("boton-iniciar-sesion");
-const campoUsuario = document.getElementById("campo-usuario");
-const campoPassword = document.getElementById("campo-password");
-const aviso = document.querySelector(".aviso");
-
 const error_defs = {
     USER_NOT_FOUND: "Funcionario no encontrado.",
     INVALID_PASSWORD: "Contraseña no válida.",
     NO_CREDENTIALS: "No has ingresado ningún parámetro."
 };
 
-buttonIniciarSesion.addEventListener("click", e => {
+// El usuario tocó el boton "INICIAR SESION"
+// Validar datos desde el servidor.
+$("#boton-iniciar-sesion").click(function(e) {
+    const datosAEnviar = {
+        userPrompt: $("#campo-usuario").attr("value"), 
+        pwdPrompt: $("campo-password").attr("value")
+    };
+
     $.ajax({
         type: "GET",
         url: "/api/user",
-        data: {
-            userPrompt: campoUsuario.value,
-            pwdPrompt: campoPassword.value
-        },
-        success: function () {
-            window.location.href = `/panel/${campoUsuario.value}`;
-        },
-        error: function (err) {
-            console.log(err.responseText)
-            aviso.querySelector(".aviso-texto").innerHTML = error_defs[err.responseText];
-            aviso.classList.add("aviso-activo");
-        }
+        data: datosAEnviar,
+        success: enviarAlPanel,
+        error: mostrarError
     });
 });
 
-aviso.addEventListener("click", () => {
-    aviso.classList.remove("aviso-activo");
+// El usuario hizo click en el aviso de error.
+// Remueve el aviso de la pantalla.
+$(".aviso").click(function () {
+    $(".aviso").removeClass("aviso-activo");
 });
+
+// Si las credenciales son validadas, irse al panel.
+function enviarAlPanel() {
+    window.location.href = `/panel/${ $("#campo-usuario").attr("value") }`;
+}
+
+// Muestra el aviso de error en la pantalla de login
+function mostrarError(err) {
+    $(".aviso-texto", ".aviso").html(error_defs[err.responseText]);
+    $(".aviso").addClass("aviso-activo");
+}
