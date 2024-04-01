@@ -1,5 +1,5 @@
 // El usuario tocó el boton "INICIAR SESION"
-// Validar datos desde el servidor.
+// Validar datos desde el servidor.m
 $("#boton-iniciar-sesion").click(function(e) {
     const datosAEnviar = {
         userPrompt: $("#campo-usuario").val(), 
