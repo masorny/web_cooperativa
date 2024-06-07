@@ -5,8 +5,6 @@
 body {
     width: 100%;
     height: 100vh;
-
-    background-color: rgba(200, 130, 50, 1);
     position: relative;
 }
 
@@ -21,35 +19,78 @@ body {
 .contenedor {
     width: 400px;
     height: 500px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.125);
+    border: 1px solid rgba(0, 0, 0, 0.25);
 
     display: grid;
-    grid-template-rows: 62.5% 37.5%;
+    grid-template-rows: 60% 40%;
 }
 
 .contenedor-logo {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
+    display: grid;
+    place-items: center;
     color: white;
     font-size: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .contenedor-logo img {
-    max-width: var(--logo-max-size);
-    max-height: var(--logo-max-size);
+/*     max-width: var(--logo-max-size);
+    max-height: var(--logo-max-size); */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    position: absolute;
+    filter: brightness(0.5);
+}
+
+.contenedor-logo .logo-degradado {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, white, transparent);
+    position: absolute;
+    z-index: 1;
+}
+
+.contenedor-logo .logo-texto {
+    position: relative;
+    z-index: 2;
 }
 
 .contenedor-inputs {
     padding: 15px;
+    display: grid;
+    grid-template-rows: 30% 30% 40%;
+    place-items: center;
+}
+
+.contenedor-inputs > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor-inputs :is(input[type="text"], input[type="password"]) {
+    width: 100%;
+    height: 62.5%;
+    align-self: start;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    margin-bottom: -1px;
+}
+
+.contenedor-inputs :is(input[type="text"], input[type="password"]):focus {
+    box-shadow: 0px 2px 0px;
 }
 
 .contenedor-inputs button {
     width: 100%;
-    background-color: orange;
+    height: 40px;
     border: none;
+    align-self: end;
 }
 
 .aviso {
@@ -92,4 +133,16 @@ body {
 
 .aviso-activo {
     transform: translateY(0);
+}
+
+.boton-ir-registrarse:hover, .boton-ir-iniciarsesion:hover {
+    color: blue;
+}
+
+.boton-ir-registrarse:active, .boton-ir-iniciarsesion:active {
+    color: cadetblue;
+}
+
+.hidden {
+    display: none;
 }

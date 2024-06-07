@@ -18,21 +18,71 @@
         </div>
     </div>
     <div class="main">
-        <div class="contenedor">
+        <div class="contenedor inicio-sesion">
             <div class="contenedor-logo">
-                <img src="img/logo.png" alt="">
-                <span>Inicie sesion</span>
+                <img src="img/familia-feliz-abuelos.avif" alt="">
+                <div class="logo-degradado"></div>
+                <span class="logo-texto">Inicie sesion</span>
             </div>
             <div class="contenedor-inputs">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Usuario</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="campo-usuario">
+                <div>
+                    <input type="text" id="campo-usuario">
+                    <span style="font-size: 0.7rem;">Usuario</span>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Contraseña</span>
-                    <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="campo-password">
+                <div>
+                    <input type="password" id="campo-password">
+                    <span style="font-size: 0.7rem;">Contraseña</span>
                 </div>
-                <button type="button" class="btn btn-primary" id="boton-iniciar-sesion">Ingresar</button>
+                <div>
+                    <button type="button" class="btn btn-secondary" id="boton-iniciar-sesion" style="border-radius: 0;">Iniciar sesión</button>
+                    <span 
+                        style="
+                            font-size: 0.75rem;
+                            text-decoration: underline;
+                            cursor: pointer;
+                            user-select: none;
+                        "
+                        class="boton-ir-registrarse"
+                    >Registrarse</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="contenedor registro-sesion hidden" style="grid-template-rows: 40% 60%;">
+            <div class="contenedor-logo">
+                <img src="img/familia-feliz-abuelos.avif" alt="">
+                <div class="logo-degradado"></div>
+                <span class="logo-texto">Registrar</span>
+            </div>
+            <div class="contenedor-inputs" style="grid-template-rows: 20% 20% 20% 20% 20%;">
+                <div>
+                    <input type="text" id="campo-registro-autorizacion">
+                    <span style="font-size: 0.7rem;">Codigo de autorizacion</span>
+                </div>
+                <div>
+                    <input type="text" id="campo-registro-usuario">
+                    <span style="font-size: 0.7rem;">Nombre de usuario</span>
+                </div>
+                <div>
+                    <input type="password" id="campo-registro-password">
+                    <span style="font-size: 0.7rem;">Contraseña deseada</span>
+                </div>
+                <div>
+                    <input type="password" id="campo-registro-confpassword">
+                    <span style="font-size: 0.7rem;">Confirmar contraseña</span>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="boton-iniciar-sesion" style="border-radius: 0;">Registrarse</button>
+                    <span 
+                        style="
+                            font-size: 0.75rem;
+                            text-decoration: underline;
+                            cursor: pointer;
+                            user-select: none;
+                        "
+                        class="boton-ir-iniciarsesion"
+                    >Iniciar sesión</span>
+                </div>
             </div>
         </div>
     </div>

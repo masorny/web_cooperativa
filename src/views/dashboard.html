@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
+
+    <%
+        const title = !locals.title ? "Inicio" : locals.title;
+    %>
+
+    <title><%= title %> - COSAB</title>
+</head>
+<body>
+    <div class="main">
+        <div class="window-overlay <%= !locals.firstStep ? "hidden" : "" %>">
+            <div class="window">
+                <div class="window-title">
+                    <span>Primeros Pasos</span>
+                    <!-- <button>
+                        <i class="fas fa-times"></i>
+                    </button> -->
+                </div>
+                <div class="window-content">
+                    <div class="first-steps-content" style="display: flex; flex-direction: column;">
+                        <span>
+                            Hola <b><%= usuario.nombre %></b>, para comenzar a utilizar la plataforma
+                            es ncecesario otorgar algunos últimos datos que necesitamos recopilar.
+                            ¿Qué te parece si comenzamos? ¡Hagámoslo!
+                        </span>
+                        <br/><br/>
+                        <span>
+                            Escoge el nombre con el que deseas que aparezcas en esta plataforma, algo más personalizado para ti.
+                        </span>
+                        <div style="display: flex; flex-direction: column;">
+                            <input type="text" id="campo-primeropaso-apodo"
+                                style="
+                                    width: 50%;
+                                    align-self: start;
+                                    border: none;
+                                    border-bottom: 1px solid black;
+                                    outline: none;
+                                    margin-bottom: -1px;
+                                "   
+                            >
+                            <span style="font-size: 0.7rem;">El nombre deseado</span>
+                        </div>
+                        <div style="align-self: end;">
+                            <button style="width: 150px;" class="boton-primeropaso-confirmar">Aceptar</button>
+                            <button style="width: 150px;" class="boton-primeropaso-cancelar">Cerrar sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-title">
+                <%= title %>
+            </div>
+            <div class="header-session">
+                <span class="session-caption">Iniciado como <b><%= usuario.apodo ?? usuario.nombre %></b></span>
+                <div class="session-options hidden">
+                    <button class="session-options-button">
+                        <i class="fas fa-user"></i>
+                        Ver Mi Perfil
+                    </button>
+                    <button class="session-options-button">
+                        <i class="fas fa-cog"></i>
+                        Ir a Configuracion
+                    </button>
+                    <button class="session-options-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar sesion
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-banner">
+                <div class="banner-overlay"></div>
+                <img src="img/familia-feliz-abuelos.avif">
+            </div>
+            <div class="sidebar-items">
+                <a href="/inicio" class="item-row <%= title == "Inicio" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-home"></i>
+                        Inicio
+                    </button>
+                </a>
+                <a href="/listaFuncionarios" class="item-row <%= title == "Lista de Funcionarios" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-briefcase"></i>
+                        Lista Funcionarios
+                    </button>
+                </a>
+                <a href="/nosotros" class="item-row <%= title == "Sobre Nosotros" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-sitemap"></i>
+                        Sobre Nosotros
+                    </button>
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <span>Cooperativa San Bruno</span>
+                <span>Fundada en 2023</span>
+                <span>Desarrollado por Adrian Ramirez</span>
+            </div>
+        </div>
+        <div class="content">
+
+        </div>
+    </div>
+</body>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/dashboard.js"></script>
+</html>

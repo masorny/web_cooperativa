@@ -1,29 +1,33 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { join } = require("path");
-const installAPI = require("./src/api/routerSetup");
-const dbUtils = require("./src/modules/dabataseUtils");
+const cookieParser = require("cookie-parser");
+const Database = require("./src/class/Database");
 
 const server = express();
+const database = new Database("./src/db/web_cooperativa.db");
 
-server.set("PORT", 5432);
+server.set("PORT", 5433);
 
-server.use(express.static(join(__dirname, "src", "public")));
-server.use(express.static(join(__dirname, "src", "lib")));
+server.use( express.static(join(__dirname, "src", "public") ));
+server.use( express.static(join(__dirname, "src", "lib") ));
 
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: false }));
+server.use( bodyParser.json() );
+server.use( bodyParser.urlencoded({ extended: false }) );
+server.use( cookieParser("test_123") );
 
-server.use(require("./src/routers/main"));
+server.use( require("./src/routers/main") );
 
-server.set("views", [ join(__dirname, "src", "views"), join(__dirname, "src", "api", "views") ]);
+server.set("views", [ join(__dirname, "src", "views") ]);
+server.set("database", database);
 
 server.set("view engine", "ejs");
 server.engine("html", require("ejs").renderFile);
 
-installAPI(server);
-dbUtils.makeConnection().catch(err => console.log(err));
+(async function init() {
+    await database.connect();
 
-server.listen(server.get("PORT"), () => {
-    console.log(`\n\n\n\n\n\nIngrese en el navegador la siguiente URL: "localhost:${server.get("PORT")}"`);
-});
+    server.listen(server.get("PORT"), () => {
+        console.log(`\n\n\n\n\n\nIngrese en el navegador la siguiente URL: "localhost:${server.get("PORT")}"`);
+    });
+})();

@@ -1,0 +1,212 @@
+:root {
+    --sidebar-bg: rgb(250, 250, 250);
+    --sidebar-width: 250px;
+    --header-height: 50px;
+}
+
+html, body {
+    width: 100%;
+    height: 100vh;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    display: grid;
+
+    grid-template-rows: var(--header-height) calc(100% - var(--header-height));
+    grid-template-columns: var(--sidebar-width) calc(100% - var(--sidebar-width));
+    grid-template-areas: "sidebar header" "sidebar content";
+
+    position: relative;
+}
+
+.window-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.window {
+    width: 800px;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.window-title {
+    height: var(--header-height);
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background: rgb(240, 240, 240);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.125);
+
+    display: grid;
+    grid-template-columns: calc(100% - 50px) 50px;
+}
+
+.window-title span {
+    align-self: center;
+    margin-left: 15px;
+    font-size: 1.375rem;
+    font-weight: 300;
+}
+
+.window-title button {
+    border: none;
+    outline: none !important;
+}
+
+.window-title button:active {
+    color: rgb(120, 120, 120);
+}
+
+.window-content {
+    padding: 15px;
+}
+
+.header {
+    grid-area: header;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background: rgb(240, 240, 240);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.125);
+    display: grid;
+    grid-template-columns: calc(100% - 250px) 250px;
+    place-items: center;
+}
+
+.sidebar {
+    --banner-height: 200px;
+    --footer-height: 85px;
+
+    grid-area: sidebar;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    background: var(--sidebar-bg);
+    z-index: 1;
+    display: grid;
+    grid-template-rows: var(--banner-height) calc(100% - var(--banner-height) - var(--footer-height)) var(--footer-height);
+}
+
+.sidebar-banner {
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    filter: brightness(0.95) blur(5px);
+}
+
+.sidebar-banner .banner-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    background: linear-gradient( transparent, var(--sidebar-bg) );
+}
+
+.item-row {
+    display: block;
+    width: 100%;
+    height: 40px;
+    text-decoration: none;
+}
+
+.item-row-active {
+    background: #F0F0F0;
+}
+
+.item-row button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none !important;
+    text-align: start;
+    padding-left: 15px;
+    background: none;
+}
+
+.item-row button i {
+    margin-right: 15px;
+}
+
+.sidebar-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sidebar-footer span:nth-child(1) {
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.sidebar-footer span:nth-child(2) {
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.sidebar-footer span:nth-child(3) {
+    font-weight: 100;
+    font-size: 0.7rem;
+}
+
+.header-title { 
+    place-self: start;
+    align-self: center;
+    padding-left: 20px;
+    font-weight: 300;
+    font-size: 1.625rem;
+}
+
+.header-session {
+    position: relative;
+}
+
+.session-options {
+    width: 200px;
+    position: absolute;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.session-options button {
+    width: 100%;
+    height: 35px;
+    border: none;
+    text-align: start;
+    outline: 0 !important;
+}
+
+.session-options button:hover {
+    background: rgb(220, 220, 220);
+}
+
+.session-options button:active {
+    background: rgb(200, 200, 200);
+}
+
+.session-options button i {
+    margin-right: 15px;
+}
+
+.session-caption {
+    cursor: pointer;
+}
+
+.content {
+    grid-area: content;
+}
+
+.hidden {
+    display: none;
+}
