@@ -101,9 +101,14 @@ router.get("/listaFuncionarios", async (req, res) => {
 
     const session = decryptSession(token);
 
+    /** @type {import("../class/Database")} */
+    const database = req.app.get("database")
+
+    const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+
     res.render("dashboard.html", {
         title: "Lista de Funcionarios",
-        session
+        usuario
     });
 });
 
@@ -115,9 +120,14 @@ router.get("/nosotros", async (req, res) => {
 
     const session = decryptSession(token);
 
+    /** @type {import("../class/Database")} */
+    const database = req.app.get("database")
+
+    const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+
     res.render("dashboard.html", {
         title: "Sobre Nosotros",
-        session
+        usuario
     });
 });
 
@@ -129,9 +139,14 @@ router.get("/configuracion", async (req, res) => {
 
     const session = decryptSession(token);
 
+    /** @type {import("../class/Database")} */
+    const database = req.app.get("database")
+
+    const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+
     res.render("dashboard.html", {
         title: "Mis Preferencias",
-        session
+        usuario
     });
 });
 
@@ -143,9 +158,14 @@ router.get("/perfil", async (req, res) => {
 
     const session = decryptSession(token);
 
+        /** @type {import("../class/Database")} */
+    const database = req.app.get("database")
+
+    const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+
     res.render("dashboard.html", {
         title: "Mi Perfil",
-        session
+        usuario
     });
 });
 
