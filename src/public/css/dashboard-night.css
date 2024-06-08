@@ -1,0 +1,94 @@
+:root {
+    --universal-border-color-125: rgba(255, 255, 255, 0.125);
+    --universal-border-color-25: rgba(255, 255, 255, 0.25);
+
+    --sidebar-bg: rgb(30, 30, 30);
+    --sidebar-width: 250px;
+    --header-height: 50px;
+    --window-overlay-bg: rgba(255, 255, 255, 0.5);
+    --window-bg: #fff;
+    --window-border-color: var(--universal-border-color-125);
+    --window-header-border: var(--universal-border-color-125);
+    --window-header-bg: rgb(240, 240, 240);
+    --window-header-shadow: rgba(0, 0, 0, 0.125);
+    --window-header-button-active-color: rgb(120, 120, 120);
+    --header-border-color: var(--universal-border-color-125);
+    --header-bg: rgb(40, 40, 40);
+    --header-shadow: rgba(0, 0, 0, 0.125);
+    --sidebar-border-color: var(--universal-border-color-25);
+    --item-row-active-bg: #F0F0F0;
+    --session-options-border-color: var(--universal-border-color-25);
+    --session-options-button-hover-color: rgb(220, 220, 220);
+    --session-options-button-active-color: rgb(200, 200, 200);
+}
+
+* {
+    color: white;
+}
+
+select {
+    background: rgb(50, 50, 50);
+}
+
+body {
+    background: rgb(50, 50, 50) !important;
+}
+
+.window-overlay {
+    background: var(--window-overlay-bg);
+}
+
+.window {
+    background-color: var(--window-bg);
+    border: 1px solid var(--window-border-color);
+}
+
+.window-title {
+    border-bottom: 1px solid var(--window-header-border);
+    background: var(--window-header-bg);
+    box-shadow: 0 0 10px var(--window-header-shadow);
+}
+
+.window-title button:active {
+    color: var(--window-header-button-active-color);
+}
+
+.header {
+    border-bottom: 1px solid var(--header-border-color);
+    background: var(--header-bg);
+    box-shadow: 0 0 10px var(--header-bg);
+}
+
+.sidebar {
+    border-right: 1px solid  var(--sidebar-border-color);
+    background: var(--sidebar-bg);
+}
+
+.sidebar-banner .banner-overlay {
+    background: linear-gradient( transparent, var(--sidebar-bg) );
+}
+
+.item-row-active {
+    background: var(--item-row-active-bg);
+}
+
+.session-options {
+    border: 1px solid var(--session-options-border-color);
+}
+
+.session-options button:hover {
+    background: var(--session-options-button-hover-color);
+}
+
+.session-options button:active {
+    background: var(--session-options-button-active-color);
+}
+
+.content-main {
+    background: rgb(60, 60, 60);
+    border: 1px solid var(--universal-border-color-125);
+}
+
+.content-main-title {
+    border-bottom: 1px solid var(--universal-border-color-125);
+}

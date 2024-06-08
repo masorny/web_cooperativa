@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/preferencias.css">
+
+    <!-- <link rel="stylesheet" href="css/dashboard-night.css"> -->
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
 
     <%
         const title = !locals.title ? "Inicio" : locals.title;
+
+        console.log(locals.firstStep)
     %>
 
     <title><%= title %> - COSAB</title>
 </head>
 <body>
     <div class="main">
-        <div class="window-overlay <%= !locals.firstStep ? "hidden" : "" %>">
+        <div class="window-overlay <%= locals.firstStep ? "" : "hidden" %>">
             <div class="window">
                 <div class="window-title">
                     <span>Primeros Pasos</span>
@@ -109,7 +115,13 @@
             </div>
         </div>
         <div class="content">
-
+            <%
+                if (title == "Mis Preferencias") {
+            %>
+                <%- include("preferencias.html", { usuario }) %>
+            <%
+                }
+            %>
         </div>
     </div>
 </body>
