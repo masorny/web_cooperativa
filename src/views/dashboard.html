@@ -13,8 +13,6 @@
 
     <%
         const title = !locals.title ? "Inicio" : locals.title;
-
-        console.log(locals.firstStep)
     %>
 
     <title><%= title %> - COSAB</title>
@@ -98,13 +96,13 @@
                 <a href="/listaFuncionarios" class="item-row <%= title == "Lista de Funcionarios" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-briefcase"></i>
-                        Lista Funcionarios
+                        Funcionarios
                     </button>
                 </a>
                 <a href="/nosotros" class="item-row <%= title == "Sobre Nosotros" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-sitemap"></i>
-                        Sobre Nosotros
+                        Nosotros
                     </button>
                 </a>
             </div>
@@ -119,6 +117,11 @@
                 if (title == "Mis Preferencias") {
             %>
                 <%- include("preferencias.html", { usuario }) %>
+            <%
+                }
+                else if (title == "Lista de Funcionarios") {
+            %>
+                <%- include("funcionario.html", { usuario }) %>
             <%
                 }
             %>

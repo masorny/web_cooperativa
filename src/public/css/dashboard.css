@@ -184,6 +184,9 @@ html, body {
 
 .header-session {
     position: relative;
+    width: 100%;
+    text-align: center;
+    user-select: none;
 }
 
 .session-options {
@@ -230,7 +233,7 @@ html, body {
     width: 75%;
     height: calc(100% - 100px);
     margin-top: 50px;
-    border: 1px solid var(--universal-border-color-125);
+    /* border: 1px solid var(--universal-border-color-125); */
 
     padding: 25px;
 }
