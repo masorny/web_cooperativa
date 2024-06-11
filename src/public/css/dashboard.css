@@ -1,7 +1,25 @@
 :root {
+    --universal-border-color-125: rgba(0, 0, 0, 0.125);
+    --universal-border-color-25: rgba(0, 0, 0, 0.25);
+
     --sidebar-bg: rgb(250, 250, 250);
     --sidebar-width: 250px;
     --header-height: 50px;
+    --window-overlay-bg: rgba(255, 255, 255, 0.5);
+    --window-bg: #fff;
+    --window-border-color: var(--universal-border-color-125);
+    --window-header-border: var(--universal-border-color-125);
+    --window-header-bg: rgb(240, 240, 240);
+    --window-header-shadow: rgba(0, 0, 0, 0.125);
+    --window-header-button-active-color: rgb(120, 120, 120);
+    --header-border-color: var(--universal-border-color-125);
+    --header-bg: rgb(240, 240, 240);
+    --header-shadow: rgba(0, 0, 0, 0.125);
+    --sidebar-border-color: var(--universal-border-color-25);
+    --item-row-active-bg: #F0F0F0;
+    --session-options-border-color: var(--universal-border-color-25);
+    --session-options-button-hover-color: rgb(220, 220, 220);
+    --session-options-button-active-color: rgb(200, 200, 200);
 }
 
 html, body {
@@ -25,7 +43,7 @@ html, body {
     width: 100%;
     height: 100%;
     position: absolute;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--window-overlay-bg);
     backdrop-filter: blur(5px);
     z-index: 2;
     display: flex;
@@ -36,16 +54,16 @@ html, body {
 .window {
     width: 800px;
     height: 500px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--window-bg);
+    border: 1px solid var(--window-border-color);
 }
 
 .window-title {
     height: var(--header-height);
 
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    background: rgb(240, 240, 240);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid var(--window-header-border);
+    background: var(--window-header-bg);
+    box-shadow: 0 0 10px var(--window-header-shadow);
 
     display: grid;
     grid-template-columns: calc(100% - 50px) 50px;
@@ -64,7 +82,7 @@ html, body {
 }
 
 .window-title button:active {
-    color: rgb(120, 120, 120);
+    color: var(--window-header-button-active-color);
 }
 
 .window-content {
@@ -73,9 +91,9 @@ html, body {
 
 .header {
     grid-area: header;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    background: rgb(240, 240, 240);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid var(--header-border-color);
+    background: var(--header-bg);
+    box-shadow: 0 0 10px var(--header-bg);
     display: grid;
     grid-template-columns: calc(100% - 250px) 250px;
     place-items: center;
@@ -86,7 +104,7 @@ html, body {
     --footer-height: 85px;
 
     grid-area: sidebar;
-    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    border-right: 1px solid  var(--sidebar-border-color);
     background: var(--sidebar-bg);
     z-index: 1;
     display: grid;
@@ -122,7 +140,7 @@ html, body {
 }
 
 .item-row-active {
-    background: #F0F0F0;
+    background: var(--item-row-active-bg);
 }
 
 .item-row button {
@@ -146,12 +164,7 @@ html, body {
     flex-direction: column;
 }
 
-.sidebar-footer span:nth-child(1) {
-    font-weight: 400;
-    font-size: 0.9rem;
-}
-
-.sidebar-footer span:nth-child(2) {
+.sidebar-footer :is(span:nth-child(1), span:nth-child(2)) {
     font-weight: 400;
     font-size: 0.9rem;
 }
@@ -176,7 +189,7 @@ html, body {
 .session-options {
     width: 200px;
     position: absolute;
-    border: 1px solid rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--session-options-border-color);
 }
 
 .session-options button {
@@ -188,11 +201,11 @@ html, body {
 }
 
 .session-options button:hover {
-    background: rgb(220, 220, 220);
+    background: var(--session-options-button-hover-color);
 }
 
 .session-options button:active {
-    background: rgb(200, 200, 200);
+    background: var(--session-options-button-active-color);
 }
 
 .session-options button i {
@@ -203,10 +216,28 @@ html, body {
     cursor: pointer;
 }
 
-.content {
-    grid-area: content;
-}
-
 .hidden {
     display: none;
+}
+
+.content {
+    grid-area: content;
+    display: flex;
+    justify-content: center;
+}
+
+.content-main {
+    width: 75%;
+    height: calc(100% - 100px);
+    margin-top: 50px;
+    border: 1px solid var(--universal-border-color-125);
+
+    padding: 25px;
+}
+
+.content-main-title {
+    font-size: 1.5rem;
+    font-weight: 320;
+    border-bottom: 1px solid var(--universal-border-color-125);
+    margin-bottom: 25px;
 }
