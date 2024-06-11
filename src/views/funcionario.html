@@ -15,14 +15,13 @@
             <tbody>
                 <%
                     for (const usuario of funcionarios) {
-                        console.log(usuario)
                 %>
                     <tr>
                         <td><b><%= usuario.nombre %></b></td>
                         <td><%= usuario.apodo %></td>
                         <td><%= usuario.lastSession() %></td>
                         <td>
-                            <button><i class="fas fa-cog"></i></button>
+                            <button class="boton-ver-funcionario" id="<%= usuario.id_usuario %>"><i class="fas fa-cog"></i></button>
                         </td>
                     </tr>
                 <%
