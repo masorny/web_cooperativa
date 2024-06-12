@@ -96,6 +96,10 @@ function initializeRoute(router, database) {
             funcionarios
         });
     });
+
+    router.post("/listaFuncionarios", validateSession, async (req, res) => {
+        console.log(req)
+    });
     
     router.get("/nosotros", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
@@ -211,14 +215,28 @@ function initializeRoute(router, database) {
         const funcionario = await getUser(idFuncionario);
 
         res.json(funcionario);
-    })
+    });
+
+    router.get("/api/crearfuncionario", validateApiSession, async (req, res) => {
+        const cod_autorizaciones = (await database.query("select cod_autorizacion from usuario"))
+            .all()
+            .map(obj => obj.cod_autorizacion);
+
+        var cod_autorizacion = ~~(Math.random() * 1000000);
+
+        while(cod_autorizaciones.includes(cod_autorizacion)) {
+            cod_autorizacion = ~~(Math.random() * 1000000);
+        }
+
+        res.json(cod_autorizacion);
+    });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async function validateSession(request, response, next) {
         const tokenInspected = await inspectToken(request);
     
-        if (tokenInspected == TokenStatus.INVALID) {
+        if ( tokenInspected == TokenStatus.INVALID ) {
             response.status(401).send(html_invalid_session_view);    
             return false;
         };

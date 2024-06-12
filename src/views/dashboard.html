@@ -73,21 +73,117 @@
                 </div>
                 <div class="window-content">
                     <div class="content-funcionario-edit">
-                        <form action="/listaFuncionarios/actualizar" method="post">
-                            <label for="funcionario-edit-autorizacion">Cod. Autorización</label>
-                            <input class="form-control" type="text" id="funcionario-edit-autorizacion" disabled>
-                        
-                            <label for="funcionario-edit-nombre">Nombre de Usuario</label>
-                            <input class="form-control" type="text" id="funcionario-edit-nombre">
+                        <form action="/listaFuncionarios" method="post" autocomplete="off">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" hidden autocomplete="false">
 
-                            <label for="funcionario-edit-alias">Alias</label>
-                            <input class="form-control" type="text" id="funcionario-edit-alias">
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input type="text" id="funcionario-edit-autorizacion" class="input-text" disabled>
+                                        <span style="font-size: 0.7rem;">Código de autorizacion</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input type="text" id="funcionario-edit-nombre" class="input-text">
+                                        <span style="font-size: 0.7rem;">Nombre de Usuario</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input type="text" id="funcionario-edit-alias" class="input-text">
+                                        <span style="font-size: 0.7rem;">Alias</span>
+                                    </div>
+                                    
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select class="form-select select-input" id="funcionario-edit-estado">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Deshabilitado</option>
+                                        </select>
+                                        <span style="font-size: 0.7rem;">Estado de la cuenta</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input type="password" id="funcionario-edit-pwd" class="input-text" autocomplete="new-password">
+                                        <span style="font-size: 0.7rem;">Actualizar Contraseña</span>
+                                    </div>
+                                </div>
+                                <div class="col d-flex align-items-center justify-content-center">
+                                    <div class="funcionario-edit-imagen" style="width: 256px; height: 256px; border: 1px solid rgba(0, 0, 0, 0.125);">
+                                        <img src="/img/funcionarios/foto.jpg" style="
+                                        max-width: 100%;
+                                        max-height: 100%;
+                                        ">
+                                    </div>
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row">
+                                <div class="col" style="display: flex; flex-direction: column;">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Roles de Funcionario
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controltotal-check">
+                                        <label for="funcionario-edit_permiso-controltotal-check">Control Total</label>
+                                    </div>
 
-                            <label for="funcionario-edit-estado">Estado de la cuenta</label>
-                            <select class="form-select" id="funcionario-edit-estado" aria-label="Default select example">
-                                <option value="1">Activo</option>
-                                <option value="2">Deshabilitado</option>
-                            </select>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-gestionarfuncionarios-check">
+                                        <label for="funcionario-edit_permiso-gestionarfuncionarios-check">Gestionar Funcionarios</label>
+                                    </div>
+
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controlmovimiento-check">
+                                        <label for="funcionario-edit_permiso-controlmovimiento-check">Gestionar Movimientos</label>
+                                    </div>
+
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-aporte-check">
+                                        <label for="funcionario-edit_permiso-aporte-check">Gestionar Aportes</label>
+                                    </div>
+
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-ahorros-check">
+                                        <label for="funcionario-edit_permiso-ahorros-check">Gestionar Ahorros</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                            Aviso
+                                        </div>
+                                        <span style="font-size: 0.9rem;">
+                                            Al hacer alguna modificación por esta sección, recuerda presionar el botón de abajo para confirmar tus cambios. 
+                                        </span>
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
