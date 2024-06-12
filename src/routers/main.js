@@ -163,6 +163,11 @@ function initializeRoute(router, database) {
     router.post("/primerpaso", async (req, res) => {
         const token = req.cookies["Authorization"];
         const apodo = req.body.apodo;
+
+        if (!apodo) {
+            res.status(301).redirect("/inicio");
+            return;
+        }
     
         /* if (! (await validateSession(req, res)) )
             return; */
@@ -292,7 +297,7 @@ function initializeRoute(router, database) {
                 return {
                     ...usuario,
                     lastSession() {
-                        return ultima_sesion.fecha_ingreso;
+                        return ultima_sesion?.fecha_ingreso ?? "";
                     }
                 }
             }));
