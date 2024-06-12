@@ -1,5 +1,5 @@
 $(".session-caption").click(function(e) {
-    $(".session-options").removeClass("hidden");
+    $(".session-options").toggleClass("hidden");
 });
 
 $(".session-options-button").click(function(e) {

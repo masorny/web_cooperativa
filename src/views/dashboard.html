@@ -13,8 +13,6 @@
 
     <%
         const title = !locals.title ? "Inicio" : locals.title;
-
-        console.log(locals.firstStep)
     %>
 
     <title><%= title %> - COSAB</title>
@@ -61,6 +59,23 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="window-overlay window-funcionario hidden">
+            <div class="window funcionario-vista">
+                <div class="window-title">
+                    <span>Vista del Funcionario</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content">
+                    
+                </div>
+            </div>
+        </div>
         <div class="header">
             <div class="header-title">
                 <%= title %>
@@ -98,13 +113,13 @@
                 <a href="/listaFuncionarios" class="item-row <%= title == "Lista de Funcionarios" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-briefcase"></i>
-                        Lista Funcionarios
+                        Funcionarios
                     </button>
                 </a>
                 <a href="/nosotros" class="item-row <%= title == "Sobre Nosotros" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-sitemap"></i>
-                        Sobre Nosotros
+                        Nosotros
                     </button>
                 </a>
             </div>
@@ -121,6 +136,11 @@
                 <%- include("preferencias.html", { usuario }) %>
             <%
                 }
+                else if (title == "Lista de Funcionarios") {
+            %>
+                <%- include("funcionario.html", { usuario }) %>
+            <%
+                }
             %>
         </div>
     </div>
@@ -128,4 +148,5 @@
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/funcionario-vista.js"></script>
 </html>
