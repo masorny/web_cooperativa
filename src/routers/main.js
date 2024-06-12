@@ -65,11 +65,8 @@ function initializeRoute(router, database) {
     })
     
     // Página principal de dashboard.
-    router.get("/inicio", async (req, res) => {
+    router.get("/inicio", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
-    
-        if ( !(await validateSession(req, res)) )
-            return;
     
         const session = decryptSession(token);
         const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
@@ -81,11 +78,8 @@ function initializeRoute(router, database) {
     });
     
     // Listado de funcionarios y sus roles.
-    router.get("/listaFuncionarios", async (req, res) => {
+    router.get("/listaFuncionarios", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
-    
-        if (! (await validateSession(req, res)) )
-            return;
     
         const session = decryptSession(token);    
         const usuario = await getUser(session.id);
@@ -103,12 +97,9 @@ function initializeRoute(router, database) {
         });
     });
     
-    router.get("/nosotros", async (req, res) => {
+    router.get("/nosotros", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
-    
-        if (! (await validateSession(req, res)) )
-            return;
-    
+
         const session = decryptSession(token);    
         const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
 
@@ -122,11 +113,8 @@ function initializeRoute(router, database) {
         });
     });
     
-    router.get("/configuracion", async (req, res) => {
+    router.get("/configuracion", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
-    
-        if (! (await validateSession(req, res)) )
-            return;
     
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
@@ -141,12 +129,9 @@ function initializeRoute(router, database) {
         });
     });
     
-    router.get("/perfil", async (req, res) => {
+    router.get("/perfil", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
-    
-        if (! (await validateSession(req, res)) )
-            return;
-    
+
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
 
@@ -160,7 +145,7 @@ function initializeRoute(router, database) {
         });
     });
     
-    router.post("/primerpaso", async (req, res) => {
+    router.post("/primerpaso", validateSession, async (req, res) => {
         const token = req.cookies["Authorization"];
         const apodo = req.body.apodo;
 
@@ -168,9 +153,6 @@ function initializeRoute(router, database) {
             res.status(301).redirect("/inicio");
             return;
         }
-    
-        /* if (! (await validateSession(req, res)) )
-            return; */
     
         const session = decryptSession(token);
 
@@ -181,30 +163,92 @@ function initializeRoute(router, database) {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    async function validateSession(request, response) {
+    const TokenStatus = {
+        OK: 0,
+        INVALID: 1,
+        EXPIRED: 2
+    };;;;;;;;;;;;;;;;;;;;
+
+    /**
+     * Inspects the token given from request.
+     */
+    async function inspectToken(req) {
         if (devMode) {
-            return true;
+            return TokenStatus.OK;
         }
 
-        const token = request.cookies["Authorization"];
+        const token = req.cookies["Authorization"];
         const decodedToken = decryptSession(token);
-    
+
         if (!decodedToken) {
-            response.status(401).send(html_invalid_session_view);
+            return TokenStatus.INVALID;
+        }
+
+        const tokenData = await getUserSession( decodedToken.id );
+
+        if ( decodedToken.isExpired() || !tokenData.isValid() ) {
+            return TokenStatus.EXPIRED;
+        }
+
+        return TokenStatus.OK;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    router.get("/api", validateApiSession, async (req, res, next) => {
+        const tokenInspected = await inspectToken(req);
+
+        if (tokenInspected == TokenStatus.EXPIRED || tokenInspected == TokenStatus.INVALID) {
+            return res.send("No se ha podido autenticar su sesión.");
+        }
+
+        res.send(".");
+    });
+
+    router.get("/api/funcionario", validateApiSession, async (req, res) => {
+        const idFuncionario = req.query["id"];
+
+        const funcionario = await getUser(idFuncionario);
+
+        res.json(funcionario);
+    })
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    async function validateSession(request, response, next) {
+        const tokenInspected = await inspectToken(request);
     
+        if (tokenInspected == TokenStatus.INVALID) {
+            response.status(401).send(html_invalid_session_view);    
             return false;
         };
     
-        const tokenData = await getUserSession( decodedToken.id );
-    
-        if ( decodedToken.isExpired() || !tokenData.isValid() ) {
+        if ( tokenInspected == TokenStatus.EXPIRED ) {
+            const token = request.cookies["Authorization"];
+
             await closeSession(token);
             response.redirect("/");
+
             return false;
         }
-    
+
+        next();
         return true;
     }
+
+    async function validateApiSession(request, response, next) {
+        const tokenInspected = await inspectToken(request);
+    
+        if ( tokenInspected == TokenStatus.INVALID || tokenInspected == TokenStatus.EXPIRED ) {
+            response.status(401).send("No se pudo autenticar la sesión.");
+            return false;
+        };
+
+        next();
+        return true;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Retorna los datos del usuario mediante su identificador, caso contrario, devuelve nulo.
@@ -212,7 +256,7 @@ function initializeRoute(router, database) {
      */
     async function getUser(userNameOrId) {
         try {
-            const q = typeof userNameOrId == "number"
+            const q = !isNaN(Number(userNameOrId))
                 ? `select * from usuario where id_usuario = ${userNameOrId}`
                 : `select * from usuario where nombre = '${userNameOrId}'`;
 

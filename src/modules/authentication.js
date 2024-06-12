@@ -1,20 +1,36 @@
 const jwt = require("jsonwebtoken");
 
+const jwt_options = {
+    algorithm: "HS256"
+};
+
 function __get_session_secret_key() {
-    return "super_secret_key";
+    return process.env.SESSION_SECRET_KEY;
 }
 
+/**
+ * Encrypts the session.
+ */
 function encryptSession(id = 0, username = "", expiresAt = Date.now()) {
-    const signed_token = jwt.sign({ id, username, expiresAt }, __get_session_secret_key(), { algorithm: "HS256" });
+    const objectToSign = {
+        id, 
+        username, 
+        expiresAt 
+    };
+
+    const signed_token = jwt.sign(
+        objectToSign,
+        __get_session_secret_key(),
+        jwt_options
+    );
+
     return signed_token;
 }
 
 /**
  * Desencripta la sesion.
- * @param {string} token Token a desencriptar
- * @returns 
  */
-function decryptSession(token) {
+function decryptSession(token = "") {
     const decoded = jwt.decode(token);
 
     if (!decoded)

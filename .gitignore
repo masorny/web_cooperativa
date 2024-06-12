@@ -4,3 +4,5 @@ package-lock.json
 
 src/db/*
 !src/db/.gitignore
+
+src/priv/*

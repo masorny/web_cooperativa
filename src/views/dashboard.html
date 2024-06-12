@@ -72,7 +72,24 @@
                     </button>
                 </div>
                 <div class="window-content">
-                    
+                    <div class="content-funcionario-edit">
+                        <form action="/listaFuncionarios/actualizar" method="post">
+                            <label for="funcionario-edit-autorizacion">Cod. Autorización</label>
+                            <input class="form-control" type="text" id="funcionario-edit-autorizacion" disabled>
+                        
+                            <label for="funcionario-edit-nombre">Nombre de Usuario</label>
+                            <input class="form-control" type="text" id="funcionario-edit-nombre">
+
+                            <label for="funcionario-edit-alias">Alias</label>
+                            <input class="form-control" type="text" id="funcionario-edit-alias">
+
+                            <label for="funcionario-edit-estado">Estado de la cuenta</label>
+                            <select class="form-select" id="funcionario-edit-estado" aria-label="Default select example">
+                                <option value="1">Activo</option>
+                                <option value="2">Deshabilitado</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
