@@ -73,28 +73,30 @@
                 </div>
                 <div class="window-content">
                     <div class="content-funcionario-edit">
-                        <form action="/listaFuncionarios" method="post" autocomplete="off">
+                        <form action="/listaFuncionarios" method="post" autocomplete="off" id="funcionario-edit-form" enctype="multipart/form-data">
+                            <input hidden name="id" type="number" id="funcionario-edit-id">
+
                             <div class="row">
                                 <div class="col">
                                     <input type="text" hidden autocomplete="false">
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input type="text" id="funcionario-edit-autorizacion" class="input-text" disabled>
+                                        <input name="codigo_autorizacion" type="text" id="funcionario-edit-autorizacion" class="input-text" disabled>
                                         <span style="font-size: 0.7rem;">Código de autorizacion</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input type="text" id="funcionario-edit-nombre" class="input-text">
+                                        <input name="nombre" type="text" id="funcionario-edit-nombre" class="input-text">
                                         <span style="font-size: 0.7rem;">Nombre de Usuario</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input type="text" id="funcionario-edit-alias" class="input-text">
+                                        <input name="apodo" type="text" id="funcionario-edit-alias" class="input-text">
                                         <span style="font-size: 0.7rem;">Alias</span>
                                     </div>
                                     
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <select class="form-select select-input" id="funcionario-edit-estado">
+                                        <select name="estado" class="form-select select-input" id="funcionario-edit-estado">
                                             <option value="1">Activo</option>
                                             <option value="0">Deshabilitado</option>
                                         </select>
@@ -102,15 +104,17 @@
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input type="password" id="funcionario-edit-pwd" class="input-text" autocomplete="new-password">
+                                        <input name="password_actualizar" type="password" id="funcionario-edit-pwd" class="input-text" autocomplete="new-password">
                                         <span style="font-size: 0.7rem;">Actualizar Contraseña</span>
                                     </div>
                                 </div>
                                 <div class="col d-flex align-items-center justify-content-center">
+                                    <input hidden name="foto" type="file" accept="image/*" id="funcionario-edit-foto">
                                     <div class="funcionario-edit-imagen" style="width: 256px; height: 256px; border: 1px solid rgba(0, 0, 0, 0.125);">
                                         <img src="/img/funcionarios/foto.jpg" style="
-                                        max-width: 100%;
-                                        max-height: 100%;
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
                                         ">
                                     </div>
                                 </div>
@@ -146,27 +150,27 @@
                                         Roles de Funcionario
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controltotal-check">
+                                        <input name="permiso_1" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controltotal-check">
                                         <label for="funcionario-edit_permiso-controltotal-check">Control Total</label>
                                     </div>
 
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-gestionarfuncionarios-check">
+                                        <input name="permiso_2" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-gestionarfuncionarios-check">
                                         <label for="funcionario-edit_permiso-gestionarfuncionarios-check">Gestionar Funcionarios</label>
                                     </div>
 
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controlmovimiento-check">
+                                        <input name="permiso_3" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-controlmovimiento-check">
                                         <label for="funcionario-edit_permiso-controlmovimiento-check">Gestionar Movimientos</label>
                                     </div>
 
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-aporte-check">
+                                        <input name="permiso_4" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-aporte-check">
                                         <label for="funcionario-edit_permiso-aporte-check">Gestionar Aportes</label>
                                     </div>
 
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="funcionario-edit_permiso-ahorros-check">
+                                        <input name="permiso_5" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-ahorros-check">
                                         <label for="funcionario-edit_permiso-ahorros-check">Gestionar Ahorros</label>
                                     </div>
                                 </div>

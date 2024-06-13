@@ -7,3 +7,6 @@ src/db/*
 !src/db/.gitignore
 
 src/priv/*
+
+src/public/img/funcionarios/*
+!src/public/img/funcionarios/.gitignore

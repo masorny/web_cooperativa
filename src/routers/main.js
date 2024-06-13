@@ -1,4 +1,5 @@
 const { encryptSession, decryptSession } = require("../modules/authentication");
+const db = require("sqlite3-transactions");
 
 const devMode = false;
 
@@ -19,6 +20,11 @@ function initializeRoute(router, database) {
         <h1 style="margin-bottom: 0;">Invalid session.</h1>
         <h2 style="margin: 0; margin-top: 1px;"><a href=\"/\">Return to login.</a></h2>
     `;
+
+    const Path = {
+        DEFAULT_USER_IMAGE: `/img/funcionarios/default.jpg`,
+        USER_IMAGES: (foto) => `/img/funcionarios/${foto}`
+    };
 
     // Pagina de login.
     router.get("/", (_, res) => {
@@ -98,7 +104,84 @@ function initializeRoute(router, database) {
     });
 
     router.post("/listaFuncionarios", validateSession, async (req, res) => {
-        console.log(req)
+        const form = req.body;
+        const usuario = await getUser(form["id"]);
+
+        const datos = {
+            nombre: (form["nombre"] == usuario.nombre ? null : form["nombre"]) ?? null,
+            apodo: (form["apodo"] == usuario.apodo ? null : form["apodo"]) ?? null,
+            estado: (Number(form["estado"]) == usuario.estado ? null : Number(form["estado"])) ?? null,
+            password_actualizar: form["password_actualizar"] || null,
+            permiso_1: parseBoolean(form["permiso_1"]) ?? false, // Control total
+            permiso_2: parseBoolean(form["permiso_2"]) ?? false, // Gestionar funcionarios
+            permiso_3: parseBoolean(form["permiso_3"]) ?? false, // Gestionar movimientos
+            permiso_4: parseBoolean(form["permiso_4"]) ?? false, // Gestionar aportes
+            permiso_5: parseBoolean(form["permiso_5"]) ?? false  // Gestionar ahorros
+        };
+
+        var qSql = [];
+
+        if (datos.nombre) qSql.push(`usuario = '${datos.nombre}'`);
+        if (datos.apodo) qSql.push(`apodo = '${datos.apodo}'`);
+        if (datos.estado) qSql.push(`estado = '${datos.estado}'`);
+        if (datos.password_actualizar) qSql.push(`clave = '${datos.password_actualizar}'`);
+
+        qSql = qSql.join(", ");
+
+        // Inicializar transacción.
+        const transaction = new db.TransactionDatabase(database.connection);
+
+        transaction.beginTransaction(async (err, transaction) => {
+            try {
+                if (err)
+                    return console.log(err);
+
+                // Actualizar nombre, apodo, estado y/o contraseña.
+                if (qSql.length > 0) {
+                    await transaction.run(`update usuario set ${qSql} where id_usuario = ${usuario.id}`);
+                }
+    
+                // insert into usuario_asignacion_roles(id_usuario, id_rol) values ()
+                qSql = [];
+
+                if (datos.permiso_1) qSql.push(1); // Control total
+                if (datos.permiso_2) qSql.push(2); // Gestionar funcionarios
+                if (datos.permiso_3) qSql.push(3); // Gestionar movimientos
+                if (datos.permiso_4) qSql.push(4); // Gestionar aportes
+                if (datos.permiso_5) qSql.push(5); // Gestionar ahorros
+
+                qSql = qSql.map(permiso => `(${usuario.id}, ${permiso})`);
+                qSql.join(", ");
+                
+                if (qSql.length > 0) {
+                    await transaction.run(`delete from usuario_roles_asignacion where id_usuario = ${usuario.id}`);
+                    await transaction.run(`insert into usuario_roles_asignacion(id_usuario, id_rol) values ${qSql}`);
+                }
+    
+                if (req.file) {
+                    const filename = req.file.originalname;
+                    const existe = (await database.query(`select * from usuario_foto where id_usuario = ${usuario.id}`)).first();
+    
+                    if (!existe) {
+                        await transaction.run(`insert into usuario_foto(id_usuario, url) values (${usuario.id}, '${filename}')`);
+                    }
+                    else {
+                        await transaction.run(`update usuario_foto set url = '${filename}' where id_usuario = ${usuario.id}`);
+                    }
+                }
+
+                transaction.commit(function(err) {
+                    if (err)
+                        console.log(err);
+
+                    res.status(301).redirect("/listaFuncionarios");
+                });
+            }
+            catch {
+                transaction.rollback();
+                res.status(500);
+            }
+        });
     });
     
     router.get("/nosotros", validateSession, async (req, res) => {
@@ -212,8 +295,15 @@ function initializeRoute(router, database) {
     router.get("/api/funcionario", validateApiSession, async (req, res) => {
         const idFuncionario = req.query["id"];
 
-        const funcionario = await getUser(idFuncionario);
+        var funcionario = await getUser(idFuncionario);
 
+        funcionario.foto = await getImage(idFuncionario);
+
+        const permisos = (await database.query(`select id_rol from usuario_roles_asignacion where id_usuario = ${idFuncionario}`))
+            .all()
+            .map(permiso => ({ [`permiso_${permiso.id_rol}`]: true }));
+
+        funcionario = Object.assign(funcionario, ...permisos);
         res.json(funcionario);
     });
 
@@ -370,6 +460,24 @@ function initializeRoute(router, database) {
     }
 
     /**
+     * Obtiene la foto del funcionario mediante su identificador.
+     * @param {number} funcionarioId Identificador del funcionario.
+     */
+    async function getImage(funcionarioId) {
+        try {
+            const foto = (await database.query(`select url from usuario_foto where id_usuario = ${ Number(funcionarioId) }`)).first();
+
+            if (!foto)
+                return Path.DEFAULT_USER_IMAGE;
+
+            return Path.USER_IMAGES(foto.url);
+        }
+        catch {
+            return Path.DEFAULT_USER_IMAGE;
+        }
+    }
+
+    /**
      * Cierra la sesion del usuario.
      * @param {string} token Token de sesión a finalizar.
      */
@@ -398,8 +506,25 @@ function initializeRoute(router, database) {
         return username.match(/^[a-zA-Z1-9]+$/) != null;
     }
 
-    function parseBoolean(n = 0) {
-        return Number(n) == 1 ? true : false;
+    /**
+     * Convierte numero o strings en valores booleanos.
+     * @param {number|string} n Numero bit o un estado en string a convertir.
+     * @example 
+     * parseBoolean('on')    // true
+     * parseBoolean('off')   // false
+     * parseBoolean(1)       // true
+     * parseBoolean(0)       // false
+     * parseBoolean('1')     // true
+     * parseBoolean('0')     // false
+     * parseBoolean('true')  // true
+     * parseBoolean('false') // false
+     */
+    function parseBoolean(n) {
+        if (typeof n === "string") {
+            return n == '1' || n == 'true' || n == 'on' ? true : n == '0' || n == 'false' || n == 'off' ? false : null;
+        }
+        
+        return n == 1 ? true : n == 0 ? false : null;
     }
 
     /**

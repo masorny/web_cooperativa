@@ -11,13 +11,23 @@ $(".boton-ver-funcionario").click(function(e) {
         success: function(data) {
             console.log(data);
 
+            $("#funcionario-edit-id").val(data.id);
+
             $("#funcionario-edit-autorizacion").val(data.cod_autorizacion);
             $("#funcionario-edit-nombre").val(data.nombre);
             $("#funcionario-edit-alias").val(data.apodo);
 
             $("#funcionario-edit-estado").val(data.estado);
 
+            $(".funcionario-edit-imagen img").attr("src", data.foto);
+
             $(".window-funcionario").removeClass("hidden");
+
+            $("#funcionario-edit_permiso-controltotal-check").prop("checked", data.permiso_1 ?? false);
+            $("#funcionario-edit_permiso-gestionarfuncionarios-check").prop("checked", data.permiso_2 ?? false);
+            $("#funcionario-edit_permiso-controlmovimiento-check").prop("checked", data.permiso_3 ?? false);
+            $("#funcionario-edit_permiso-aporte-check").prop("checked", data.permiso_4 ?? false);
+            $("#funcionario-edit_permiso-ahorros-check").prop("checked", data.permiso_5 ?? false);
         }
     });
 });
@@ -52,11 +62,9 @@ $(".window-title button").click(function(e) {
 });
 
 $(".funcionario-edit-imagen").click(function(e) {
-    const el = document.createElement("input");
-    el.type = "file";
-    el.accept = "image/*";
+    const el = $("#funcionario-edit-foto");
 
-    el.onchange = (e) => {
+    el.onchange = () => {
         const file = el.files[0];
 
         $(".funcionario-edit-imagen img").attr("src", URL.createObjectURL(file));

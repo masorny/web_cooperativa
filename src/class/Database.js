@@ -1,4 +1,5 @@
 const sqlite3 = require("sqlite3");
+const TransactionDatabase = require("sqlite3-transactions");
 
 class Database {
     /**
@@ -49,11 +50,14 @@ class Database {
 
         return result;
     }
+
+    async createTransaction() {
+
+    }
 }
 
 class QueryResult {
     /**
-     * 
      * @param {{ [rowName: string]: string|number }[]} _list 
      */
     constructor(_list) {
