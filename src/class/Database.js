@@ -42,7 +42,7 @@ class Database {
                     reject(err);
 
                 if (!rows)
-                    return;
+                    return resolve();
     
                 resolve( new QueryResult(rows) );
             });

@@ -27,7 +27,11 @@ function initializeRoute(router, database) {
     };
 
     // Pagina de login.
-    router.get("/", (_, res) => {
+    router.get("/", (req, res, next) => {
+        /* if (validateSession(req, res, next)) {
+            res.status(301).redirect("/inicio");
+        } */
+
         res.render("index.html");
     });
     
@@ -105,7 +109,7 @@ function initializeRoute(router, database) {
 
     router.post("/listaFuncionarios", validateSession, async (req, res) => {
         const form = req.body;
-        const usuario = await getUser(form["id"]);
+        const usuario = await getUser( form["id"] );
 
         const datos = {
             nombre: (form["nombre"] == usuario.nombre ? null : form["nombre"]) ?? null,
@@ -123,7 +127,7 @@ function initializeRoute(router, database) {
 
         if (datos.nombre) qSql.push(`usuario = '${datos.nombre}'`);
         if (datos.apodo) qSql.push(`apodo = '${datos.apodo}'`);
-        if (datos.estado) qSql.push(`estado = '${datos.estado}'`);
+        if (datos.estado != null) qSql.push(`estado = '${datos.estado}'`);
         if (datos.password_actualizar) qSql.push(`clave = '${datos.password_actualizar}'`);
 
         qSql = qSql.join(", ");
@@ -248,6 +252,66 @@ function initializeRoute(router, database) {
         res.status(200).send("ok");
     });
 
+    router.get("/movimientos", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+        
+        res.render("dashboard.html", {
+            title: "Movimientos",
+            usuario
+        });
+    });
+
+    router.get("/aportes", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        res.render("dashboard.html", {
+            title: "Aportes",
+            usuario
+        });
+    });
+
+    router.get("/ahorros", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        res.render("dashboard.html", {
+            title: "Ahorros",
+            usuario
+        });
+    });
+
+    router.get("/prestamos", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        res.render("dashboard.html", {
+            title: "Prestamos",
+            usuario
+        });
+    });
+
+    router.get("/pagos", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        res.render("dashboard.html", {
+            title: "Pagos",
+            usuario
+        });
+    });
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const TokenStatus = {
@@ -295,9 +359,9 @@ function initializeRoute(router, database) {
     router.get("/api/funcionario", validateApiSession, async (req, res) => {
         const idFuncionario = req.query["id"];
 
-        var funcionario = await getUser(idFuncionario);
+        var funcionario = (await database.query(`select * from v_usuario where id = ${idFuncionario}`)).first();
 
-        funcionario.foto = await getImage(idFuncionario);
+        console.log(funcionario)
 
         const permisos = (await database.query(`select id_rol from usuario_roles_asignacion where id_usuario = ${idFuncionario}`))
             .all()

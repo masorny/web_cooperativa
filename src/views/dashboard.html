@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
 
+    <link rel="shortcut icon" href="/img/logo-update.png" type="image/x-icon">
+
     <%
         const title = !locals.title ? "Inicio" : locals.title;
     %>
@@ -63,21 +65,27 @@
 
 
 
-        <div class="window-overlay window-funcionario hidden">
-            <div class="window funcionario-vista">
+        <div class="window-overlay window-funcionario hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <div class="window funcionario-vista" style="
+                height: 600px;
+                ">
                 <div class="window-title">
                     <span>Vista del Funcionario</span>
                     <button>
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="window-content">
-                    <div class="content-funcionario-edit">
-                        <form action="/listaFuncionarios" method="post" autocomplete="off" id="funcionario-edit-form" enctype="multipart/form-data">
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-funcionario-edit" style="height: 100%;">
+                        <form action="/listaFuncionarios" method="post" autocomplete="off" id="funcionario-edit-form" enctype="multipart/form-data" style="height: 100%;">
                             <input hidden name="id" type="number" id="funcionario-edit-id">
 
-                            <div class="row">
+                            <div class="row" style="margin-bottom: 20px;">
                                 <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Funcionario
+                                    </div>
+
                                     <input type="text" hidden autocomplete="false">
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
@@ -108,7 +116,11 @@
                                         <span style="font-size: 0.7rem;">Actualizar Contraseña</span>
                                     </div>
                                 </div>
-                                <div class="col d-flex align-items-center justify-content-center">
+                                <div class="col d-flex align-items-center justify-content-center" style="flex-direction: column;">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px; align-self: start;">
+                                        Foto del Funcionario
+                                    </div>
+
                                     <input hidden name="foto" type="file" accept="image/*" id="funcionario-edit-foto">
                                     <div class="funcionario-edit-imagen" style="width: 256px; height: 256px; border: 1px solid rgba(0, 0, 0, 0.125);">
                                         <img src="/img/funcionarios/foto.jpg" style="
@@ -184,7 +196,7 @@
                                         </span>
                                     </div>
                                     <div class="row h-50 d-flex align-items-center justify-content-center">
-                                        <button type="submit" style="width: 62.5%;">Aceptar</button>
+                                        <button type="submit" style="width: 62.5%;">Guardar Cambios</button>
                                     </div>
                                 </div>
                             </div>
@@ -231,6 +243,36 @@
                     <button>
                         <i class="fas fa-briefcase"></i>
                         Funcionarios
+                    </button>
+                </a>
+                <a href="/movimientos" class="item-row <%= title == "Movimientos" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-people-arrows"></i>
+                        Movimientos
+                    </button>
+                </a>
+                <a href="/aportes" class="item-row <%= title == "Aportes" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-hand-holding-usd"></i>
+                        Aportes
+                    </button>
+                </a>
+                <a href="/ahorros" class="item-row <%= title == "Ahorros" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-piggy-bank"></i>
+                        Ahorros
+                    </button>
+                </a>
+                <a href="/prestamos" class="item-row <%= title == "Prestamos" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-money-check-alt"></i>
+                        Prestamos
+                    </button>
+                </a>
+                <a href="/pagos" class="item-row <%= title == "Pagos" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-wallet"></i>
+                        Pagos
                     </button>
                 </a>
                 <a href="/nosotros" class="item-row <%= title == "Sobre Nosotros" ? "item-row-active" : "" %> ">
