@@ -211,7 +211,7 @@
             </div>
             <div class="header-session">
                 <span class="session-caption">Iniciado como <b><%= usuario.apodo ?? usuario.nombre %></b></span>
-                <div class="session-options hidden">
+                <div class="session-options hidden" style="z-index: 2;">
                     <button class="session-options-button">
                         <i class="fas fa-user"></i>
                         Ver Mi Perfil
@@ -243,6 +243,12 @@
                     <button>
                         <i class="fas fa-briefcase"></i>
                         Funcionarios
+                    </button>
+                </a>
+                <a href="/socios" class="item-row <%= title == "Socios" ? "item-row-active" : "" %> ">
+                    <button>
+                        <i class="fas fa-briefcase"></i>
+                        Socios
                     </button>
                 </a>
                 <a href="/movimientos" class="item-row <%= title == "Movimientos" ? "item-row-active" : "" %> ">
@@ -290,7 +296,12 @@
         </div>
         <div class="content">
             <%
-                if (title == "Mis Preferencias") {
+                if (title == "Inicio") {
+            %>
+                <%- include("inicio.html", { usuario }) %>
+            <%
+                }
+                else if (title == "Mis Preferencias") {
             %>
                 <%- include("preferencias.html", { usuario }) %>
             <%
@@ -298,6 +309,41 @@
                 else if (title == "Lista de Funcionarios") {
             %>
                 <%- include("funcionario.html", { usuario }) %>
+            <%
+                }
+                else if (title == "Sobre Nosotros") {
+            %>
+                <%- include("nosotros.html") %>
+            <%
+                }
+                else if (title == "Movimientos") {
+            %>
+                <%- include("movimientos.html") %>
+            <%
+                }
+                else if (title == "Aportes") {
+            %>
+                <%- include("aportes.html") %>
+            <%
+                }
+                else if (title == "Ahorros") {
+            %>
+                <%- include("ahorros.html") %>
+            <%
+                }
+                else if (title == "Prestamos") {
+            %>
+                <%- include("prestamos.html") %>
+            <%
+                }
+                else if (title == "Pagos") {
+            %>
+                <%- include("pagos.html") %>
+            <%
+                }
+                else if (title == "Socios") {
+            %>
+                <%- include("socios.html") %>
             <%
                 }
             %>

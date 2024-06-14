@@ -1,0 +1,41 @@
+<div class="content-main">
+    <div class="content-main-title">
+        Listado de Socios
+    </div>
+    <button class="boton-crear-funcionario" style="border: 1px solid rgba(0, 0, 0, 0.25);">Nuevo Socio</button>
+    <div class="content-main-data">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre del Socio</th>
+                    <th>Dirección</th>
+                    <th>Ciudad</th>
+                    <th>Cédula</th>
+                    <th>E-mail</th>
+                    <th>Teléfono</th>
+                    <th>Fecha Ingreso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    for (const socio of socios) {
+                %>
+                    <tr>
+                        <td><b><%= socio.apellido + ', ' + socio.nombre %></b></td>
+                        <td><%= socio.direccion %></td>
+                        <td><%= socio.ciudad %></td>
+                        <td><%= socio.cedula %></td>
+                        <td><%= socio.correo %></td>
+                        <td><%= socio.telefono %></td>
+                        <td><%= socio.fecha_ingreso %></td>
+                        <td>
+                            <button class="boton-ver-funcionario" id="<%= usuario.id_usuario %>"><i class="fas fa-cog"></i></button>
+                        </td>
+                    </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+    </div>
+</div>

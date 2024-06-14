@@ -312,6 +312,21 @@ function initializeRoute(router, database) {
         });
     });
 
+    router.get("/socios", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        const socios = (await database.query("select * from socio")).all();
+
+        res.render("dashboard.html", {
+            title: "Socios",
+            usuario,
+            socios
+        });
+    });
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const TokenStatus = {
