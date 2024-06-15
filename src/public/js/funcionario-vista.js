@@ -64,11 +64,13 @@ $(".window-title button").click(function(e) {
 $(".funcionario-edit-imagen").click(function(e) {
     const el = $("#funcionario-edit-foto");
 
-    el.onchange = () => {
-        const file = el.files[0];
+    el.change(() => {
+        const file = el[0].files[0];
+
+        console.log(file)
 
         $(".funcionario-edit-imagen img").attr("src", URL.createObjectURL(file));
-    }
+    });
 
     el.click();
 });

@@ -205,6 +205,115 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="window-overlay window-socio hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <div class="window socio-vista" style="
+                height: max-content;
+                ">
+                <div class="window-title">
+                    <span>Vista del Socio</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-socio-edit" style="height: 100%;">
+                        <form action="/socios" method="post" autocomplete="off" id="socio-edit-form" enctype="multipart/form-data" style="height: 100%;">
+                            <input hidden name="id" type="number" id="socio-edit-id">
+
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Socio
+                                    </div>
+
+                                    <input type="text" hidden autocomplete="false">
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="codigo_autorizacion" type="text" id="socio-edit-nombre" class="input-text">
+                                        <span style="font-size: 0.7rem;">Nombres</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="nombre" type="text" id="socio-edit-apellido" class="input-text">
+                                        <span style="font-size: 0.7rem;">Apellidos</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="apodo" type="text" id="socio-edit-direccion" class="input-text">
+                                        <span style="font-size: 0.7rem;">Dirección</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="apodo" type="text" id="socio-edit-ciudad" class="input-text">
+                                        <span style="font-size: 0.7rem;">Ciudad</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="apodo" type="text" id="socio-edit-cedula" class="input-text">
+                                        <span style="font-size: 0.7rem;">Cédula</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="apodo" type="text" id="socio-edit-correo" class="input-text">
+                                        <span style="font-size: 0.7rem;">Correo</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="apodo" type="text" id="socio-edit-telefono" class="input-text">
+                                        <span style="font-size: 0.7rem;">Teléfono</span>
+                                    </div>
+        
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div class="row">
+                                        <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                            Aviso
+                                        </div>
+                                        <span style="font-size: 0.9rem;">
+                                            Al hacer alguna modificación por esta sección, recuerda presionar el botón de abajo para confirmar tus cambios. 
+                                        </span>
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Guardar Cambios</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="header">
             <div class="header-title">
                 <%= title %>
@@ -354,4 +463,5 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/funcionario-vista.js" type="module"></script>
+<script src="js/socio-vista.js" type="module"></script>
 </html>

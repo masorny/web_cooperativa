@@ -400,6 +400,14 @@ function initializeRoute(router, database) {
         res.json(cod_autorizacion);
     });
 
+    router.get("/api/socio", validateApiSession, async (req, res) => {
+        const idSocio = req.query["id"];
+
+        var socio = (await database.query(`select * from socio where Id_socio = ${idSocio}`)).first();
+
+        res.json(socio);
+    });
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async function validateSession(request, response, next) {
