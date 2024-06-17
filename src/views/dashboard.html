@@ -208,6 +208,21 @@
 
 
         <div class="window-overlay window-socio hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <style>
+                @keyframes socio-anim {
+                    from {
+                        transform: skewX(0) skewY(0);
+                        scale: 0.5;
+                    }
+                    50% {
+                        scale: 0.5;
+                    }
+                    to {
+                        transform: skewX(360deg) skewY(360deg);
+                        scale: 0.5;
+                    }
+                }
+            </style>
             <div class="window socio-vista" style="
                 height: max-content;
                 ">
@@ -231,37 +246,37 @@
                                     <input type="text" hidden autocomplete="false">
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="codigo_autorizacion" type="text" id="socio-edit-nombre" class="input-text">
+                                        <input name="nombre" type="text" id="socio-edit-nombre" class="input-text">
                                         <span style="font-size: 0.7rem;">Nombres</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="nombre" type="text" id="socio-edit-apellido" class="input-text">
+                                        <input name="apellido" type="text" id="socio-edit-apellido" class="input-text">
                                         <span style="font-size: 0.7rem;">Apellidos</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apodo" type="text" id="socio-edit-direccion" class="input-text">
+                                        <input name="direccion" type="text" id="socio-edit-direccion" class="input-text">
                                         <span style="font-size: 0.7rem;">Dirección</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apodo" type="text" id="socio-edit-ciudad" class="input-text">
+                                        <input name="ciudad" type="text" id="socio-edit-ciudad" class="input-text">
                                         <span style="font-size: 0.7rem;">Ciudad</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apodo" type="text" id="socio-edit-cedula" class="input-text">
+                                        <input name="cedula" type="text" id="socio-edit-cedula" class="input-text">
                                         <span style="font-size: 0.7rem;">Cédula</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apodo" type="text" id="socio-edit-correo" class="input-text">
+                                        <input name="correo" type="text" id="socio-edit-correo" class="input-text">
                                         <span style="font-size: 0.7rem;">Correo</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apodo" type="text" id="socio-edit-telefono" class="input-text">
+                                        <input name="telefono" type="text" id="socio-edit-telefono" class="input-text">
                                         <span style="font-size: 0.7rem;">Teléfono</span>
                                     </div>
         
@@ -464,4 +479,5 @@
 <script src="js/dashboard.js"></script>
 <script src="js/funcionario-vista.js" type="module"></script>
 <script src="js/socio-vista.js" type="module"></script>
+<script src="js/aportes.js"></script>
 </html>

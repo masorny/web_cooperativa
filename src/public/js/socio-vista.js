@@ -11,6 +11,8 @@ $(".boton-ver-socio").click(function(e) {
             id
         },
         success: function(data) {
+            $("#socio-edit-id").val(data.Id_socio);
+
             $(".window-socio #socio-edit-nombre").val(data.nombre);
             $(".window-socio #socio-edit-apellido").val(data.apellido);
             $(".window-socio #socio-edit-direccion").val(data.direccion);

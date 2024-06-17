@@ -127,7 +127,7 @@ body {
     display: flex;
     align-items: center;
     font-size: 1.125rem;
-    word-break: break-all;
+    word-break: break-word;
     padding: 10px;
 }
 

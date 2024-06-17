@@ -9,6 +9,8 @@ const devMode = false;
  * @param {import("../class/Database")} database The database instance. 
  */
 function initializeRoute(router, database) {
+    const token_lifetime = 30; // Duración del token en minutos.
+
     const MillisecondsFrom = {
         SECOND: 0,
         MINUTE: 1,
@@ -50,8 +52,6 @@ function initializeRoute(router, database) {
     
         if ( !result.isValidPwd(clavePass) )
             return res.status(401).send("La contraseña es incorrecta.");
-    
-        const token_lifetime = 30; // Duración del token en minutos.
 
         const token = encryptSession(
             result.id, 
@@ -60,6 +60,57 @@ function initializeRoute(router, database) {
         );
     
         await database.query(`insert into usuario_sesion(id_usuario, codigo, valido) values (${result.id}, '${token}', 1)`);
+    
+        res.cookie("Authorization", token);
+        res.set("location", "/inicio");
+        res.status(301).send();
+    });
+
+    router.post("/registro", async (req, res) => {
+        const form = req.body;
+        
+        const datos = {
+            cod_autorizacion: form["cod_autorizacion"],
+            usuario: form["usuario"],
+            clave: form["clave"],
+            claveConfirmacion: form["claveConfirmacion"]
+        };
+
+        console.log(datos);
+
+        var existe = (await database.query(`select * from usuario where cod_autorizacion = ${datos.cod_autorizacion}`)).first();
+
+        // El codigo de autorizacion ya fue utilizado en otro registro.
+        if (existe && existe?.nombre != undefined) {
+            return res.status(401).send("El código de autorización especificado ya se ha utilizado.");
+        }
+
+        // El codigo de autorizacion no existe. 
+        else if (!existe) {
+            return res.status(401).send("El código de autorización no existe.");
+        }
+
+        existe = (await database.query(`select * from usuario where nombre = '${datos.usuario}'`)).first();
+
+        if (existe) {
+            return res.status(401).send("Ya existe el nombre de usuario escrito, utiliza otro nombre distinto.");
+        }
+
+        if (datos.clave != datos.claveConfirmacion) {
+            return res.status(401).send("Las contraseñas no coinciden.");
+        }
+
+        await database.query(`update usuario set nombre = '${datos.usuario}', clave = '${datos.clave}' where cod_autorizacion = ${datos.cod_autorizacion}`);
+
+        const nuevoUsuario = (await database.query(`select * from usuario where cod_autorizacion = ${datos.cod_autorizacion}`)).first();
+
+        const token = encryptSession(
+            nuevoUsuario.id_usuario, 
+            nuevoUsuario.nombre,
+            Date.now() + toMilliseconds(token_lifetime, MillisecondsFrom.MINUTE)
+        );
+    
+        await database.query(`insert into usuario_sesion(id_usuario, codigo, valido) values (${nuevoUsuario.id_usuario}, '${token}', 1)`);
     
         res.cookie("Authorization", token);
         res.set("location", "/inicio");
@@ -327,6 +378,55 @@ function initializeRoute(router, database) {
         });
     });
 
+    router.post("/socios", validateSession, async (req, res) => {
+        const form = req.body;
+        const id = form["id"];
+
+        const socio = (await database.query(`select * from socio where Id_socio = ${id}`)).first();
+
+        const datos = {
+            nombre: distinct(form["nombre"], socio.nombre),
+            apellido: distinct(form["apellido"], socio.apellido),
+            direccion: distinct(form["direccion"], socio.direccion),
+            ciudad: distinct(form["ciudad"], socio.ciudad),
+            cedula: distinct(form["cedula"], socio.cedula),
+            correo: distinct(form["correo"], socio.correo),
+            telefono: distinct(form ["telefono"], socio.telefono)
+        };
+
+        var qSql = [];
+
+        if (datos.nombre) qSql.push(`nombre = '${datos.nombre}'`);
+        if (datos.apellido) qSql.push(`apellido = '${datos.apellido}'`);
+        if (datos.direccion) qSql.push(`direccion = '${datos.direccion}'`);
+        if (datos.ciudad) qSql.push(`ciudad = '${datos.ciudad}'`);
+        if (datos.cedula) qSql.push(`cedula = ${datos.cedula}`);
+        if (datos.correo) qSql.push(`correo = '${datos.correo}'`);
+        if (datos.telefono) qSql.push(`telefono = '${datos.telefono}'`);
+
+        if (qSql.length > 0) {
+            qSql = qSql.join(", ");
+            await database.query(`update socio set ${qSql} where Id_socio = ${id}`);
+        }
+
+        res.status(301).redirect("/socios");
+    });
+
+    router.get("/obtenerAporte", validateApiSession, async (req, res) => {
+        const busqueda = req.query.busqueda;
+
+        var qSql = `select * from aporte a inner join socio s on s.Id_socio = a.Socio_id`, aportes;
+
+        if (!busqueda.match(/^\d+$/g)) {
+            aportes = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
+        }
+        else {
+            aportes = (await database.query(`${qSql} where Socio_Id = ${busqueda} or cedula = ${busqueda}`)).all();
+        }
+
+        res.render("socio-aporte.html", { aportes });
+    });
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const TokenStatus = {
@@ -397,6 +497,8 @@ function initializeRoute(router, database) {
             cod_autorizacion = ~~(Math.random() * 1000000);
         }
 
+        await database.query(`insert into usuario (estado, cod_autorizacion) values (1, ${cod_autorizacion})`);
+
         res.json(cod_autorizacion);
     });
 
@@ -444,6 +546,14 @@ function initializeRoute(router, database) {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function distinct(data, evaluator) {
+        if (data == evaluator) {
+            return null;
+        }
+
+        return data;
+    }
 
     /**
      * Retorna los datos del usuario mediante su identificador, caso contrario, devuelve nulo.

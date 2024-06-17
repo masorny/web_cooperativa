@@ -1,0 +1,22 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Cod. Aporte</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            for (const aporte of aportes) {
+        %>
+            <tr>
+                <td><b><%= aporte.Id_aporte %></b></td>
+                <td><%= aporte.Fecha %></td>
+                <td><%= aporte.Monto %></td>
+            </tr>
+        <%
+            }
+        %>
+    </tbody>
+</table>

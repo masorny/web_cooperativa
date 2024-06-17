@@ -40,6 +40,23 @@ $("#boton-iniciar-sesion").click(function(e) {
     });
 });
 
+$("#boton-iniciar-registro").click(function(e) {
+    e.preventDefault();
+
+    const cod_autorizacion = $("#campo-registro-autorizacion").val(),
+        usuario = $("#campo-registro-usuario").val(),
+        clave = $("#campo-registro-password").val(),
+        claveConfirmacion = $("#campo-registro-confpassword").val();
+
+    $.ajax({
+        type: "POST",
+        url: "/registro",
+        data: { cod_autorizacion, usuario, clave, claveConfirmacion },
+        success: gotoDashboard,
+        error: mostrarError
+    });
+})
+
 /**
  * Filters an input text value.
  * @param {HTMLInputElement} inputEl Input element target.
