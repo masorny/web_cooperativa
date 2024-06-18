@@ -5,9 +5,22 @@
     <div class="content-main-data">
         <div class="config-theme">
             <span>Configuracion de tema</span>
+
+            <%
+            
+                var negro = "", blanco = "";
+
+                if (config?.color_tema == 1)
+                    negro = "selected";
+                
+                if (config?.color_tema == 0)
+                    blando = "selected";
+    
+            %>
+
             <select id="config-theme-select">
-                <option value="0">Blanco (Por defecto)</option>
-                <option value="1">Negro</option>
+                <option value="0" <%= blanco %> >Blanco (Por defecto)</option>
+                <option value="1" <%= negro %> >Negro</option>
             </select>
         </div>
     </div>

@@ -39,6 +39,8 @@ $(".boton-crear-funcionario").click(function(e) {
         success: function(cod_autorizacion) {
             const label = "<Cierra sesion y registrate con el Cod. Autorizacion>";
 
+            $(".funcionario-edit-imagen img").attr("src", "/img/funcionarios/default.jpg");
+
             $("#funcionario-edit-autorizacion").val(cod_autorizacion);
             $("#funcionario-edit-nombre").prop("placeholder", label);
             $("#funcionario-edit-alias").prop("placeholder", label);

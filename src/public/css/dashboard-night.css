@@ -40,7 +40,7 @@ body {
 
 .window {
     background-color: var(--window-bg);
-    border: 1px solid var(--window-border-color);
+    border: 1px solid #303030;
 }
 
 .window-title {
@@ -91,4 +91,35 @@ body {
 
 .content-main-title {
     border-bottom: 1px solid var(--universal-border-color-125);
+}
+
+button {
+    background: #262626;
+}
+
+td, th {
+    background-color: #242424 !important;
+    color: white !important;
+    border-bottom: 1px solid #262626 !important;
+}
+
+input[type="text"], select, input[type="password"] { 
+    border-bottom: 1px solid #404040 !important;
+}
+
+.window-title {
+    background-color: #262626;
+}
+
+.window-content {
+    background-color: #242424;
+}
+
+input[type="text"], select, input[type="password"] {
+    background-color: #242424 !important;
+    color: white !important;
+}
+
+.sidebar-items .item-row-active {
+    background-color: #303030;
 }

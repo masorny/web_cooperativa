@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
 
+    <%
+        if (config?.color_tema == 1) {
+    %>
+        <link rel="stylesheet" href="css/dashboard-night.css">
+    <%
+        }
+    %>
+
     <link rel="shortcut icon" href="/img/logo-update.png" type="image/x-icon">
 
     <title>Iniciar sesion</title>
@@ -24,7 +32,7 @@
         <div class="contenedor inicio-sesion">
             <div class="contenedor-logo">
                 <img src="img/familia-feliz-abuelos.avif" alt="">
-                <div class="logo-degradado"></div>
+                <div class="logo-degradado" style="<%= config?.color_tema == 1 ? "background: linear-gradient(0deg, #303030, transparent)" : "" %>" ></div>
                 <span class="logo-texto">Inicie sesion</span>
             </div>
             <div class="contenedor-inputs">

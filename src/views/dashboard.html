@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/preferencias.css">
 
-    <!-- <link rel="stylesheet" href="css/dashboard-night.css"> -->
+    <%
+        if (config?.color_tema == 1) {
+    %>
+        <link rel="stylesheet" href="css/dashboard-night.css">
+    <%
+        }
+    %>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/5eb8de2af8.js" crossorigin="anonymous"></script>
@@ -158,7 +164,7 @@
                             </div>
                             <div class="row">
                                 <div class="col" style="display: flex; flex-direction: column;">
-                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                    <!-- <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
                                         Roles de Funcionario
                                     </div>
                                     <div class="form-check form-switch">
@@ -184,7 +190,7 @@
                                     <div class="form-check form-switch">
                                         <input name="permiso_5" type="checkbox" class="form-check-input" id="funcionario-edit_permiso-ahorros-check">
                                         <label for="funcionario-edit_permiso-ahorros-check">Gestionar Ahorros</label>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col">
                                     <div class="row">
@@ -246,37 +252,37 @@
                                     <input type="text" hidden autocomplete="false">
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="nombre" type="text" id="socio-edit-nombre" class="input-text">
+                                        <input name="nombre" type="text" id="socio-edit-nombre" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Nombres</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="apellido" type="text" id="socio-edit-apellido" class="input-text">
+                                        <input name="apellido" type="text" id="socio-edit-apellido" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Apellidos</span>
                                     </div>
         
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="direccion" type="text" id="socio-edit-direccion" class="input-text">
+                                        <input name="direccion" type="text" id="socio-edit-direccion" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Dirección</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="ciudad" type="text" id="socio-edit-ciudad" class="input-text">
+                                        <input name="ciudad" type="text" id="socio-edit-ciudad" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Ciudad</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="cedula" type="text" id="socio-edit-cedula" class="input-text">
+                                        <input name="cedula" type="text" id="socio-edit-cedula" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Cédula</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="correo" type="text" id="socio-edit-correo" class="input-text">
+                                        <input name="correo" type="text" id="socio-edit-correo" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Correo</span>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                                        <input name="telefono" type="text" id="socio-edit-telefono" class="input-text">
+                                        <input name="telefono" type="text" id="socio-edit-telefono" class="input-text" required>
                                         <span style="font-size: 0.7rem;">Teléfono</span>
                                     </div>
         
@@ -328,6 +334,376 @@
             </div>
         </div>
 
+        <!------------------------------------- CARGA DE APORTES --------------------------------------->
+
+        <div class="window-overlay window-aporte hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <style>
+                @keyframes socio-anim {
+                    from {
+                        transform: skewX(0) skewY(0);
+                        scale: 0.5;
+                    }
+                    50% {
+                        scale: 0.5;
+                    }
+                    to {
+                        transform: skewX(360deg) skewY(360deg);
+                        scale: 0.5;
+                    }
+                }
+            </style>
+            <div class="window socio-vista" style="
+                height: max-content;
+                ">
+                <div class="window-title">
+                    <span>Cargar Aporte</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-socio-edit" style="height: 100%;">
+                        <form action="/aportes" method="post" autocomplete="off" id="socio-edit-form" enctype="multipart/form-data" style="height: 100%;">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Aporte
+                                    </div>
+
+                                    <input type="text" hidden autocomplete="false">
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="socio" id="socio-select" class="input-text"></select>
+                                        <span style="font-size: 0.7rem;">Socio</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="monto" type="text" id="socio-edit-apellido" class="input-text" required>
+                                        <span style="font-size: 0.7rem;">Monto Aportado (En Guaraníes)</span>
+                                    </div>
+        
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Cargar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------------- CARGA DE AHORRO --------------------------------------->
+
+        <div class="window-overlay window-ahorro hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <style>
+                @keyframes socio-anim {
+                    from {
+                        transform: skewX(0) skewY(0);
+                        scale: 0.5;
+                    }
+                    50% {
+                        scale: 0.5;
+                    }
+                    to {
+                        transform: skewX(360deg) skewY(360deg);
+                        scale: 0.5;
+                    }
+                }
+            </style>
+            <div class="window socio-vista" style="
+                height: max-content;
+                ">
+                <div class="window-title">
+                    <span>Cargar Ahorro</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-socio-edit" style="height: 100%;">
+                        <form action="/ahorros" method="post" autocomplete="off" id="socio-edit-form" enctype="multipart/form-data" style="height: 100%;">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Ahorro
+                                    </div>
+
+                                    <input type="text" hidden autocomplete="false">
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="socio" id="socio-ahorro-select" class="input-text"></select>
+                                        <span style="font-size: 0.7rem;">Socio</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="tipo_ahorro" id="socio-ahorro-select" class="input-text">
+                                            <option value="1">Ahorro Corriente (Cuenta de Ahorro Corriente)</option>
+                                            <option value="2">Ahorro Procreate (Cuenta de Ahorro Programado)</option>
+                                        </select>
+                                        <span style="font-size: 0.7rem;">Tipo de Ahorro</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="monto" type="text" id="socio-edit-ahorro-monto" class="input-text" required>
+                                        <span style="font-size: 0.7rem;">Monto del Ahorro (En Guaraníes)</span>
+                                    </div>
+        
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Cargar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------------- CARGA DE PRESTAMO --------------------------------------->
+
+        <div class="window-overlay window-prestamo hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <style>
+                @keyframes socio-anim {
+                    from {
+                        transform: skewX(0) skewY(0);
+                        scale: 0.5;
+                    }
+                    50% {
+                        scale: 0.5;
+                    }
+                    to {
+                        transform: skewX(360deg) skewY(360deg);
+                        scale: 0.5;
+                    }
+                }
+            </style>
+            <div class="window socio-vista" style="
+                height: max-content;
+                ">
+                <div class="window-title">
+                    <span>Cargar Prestamo</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-socio-edit" style="height: 100%;">
+                        <form action="/prestamos" method="post" autocomplete="off" id="socio-edit-form" enctype="multipart/form-data" style="height: 100%;">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Prestamo
+                                    </div>
+
+                                    <input type="text" hidden autocomplete="false">
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="socio" id="socio-prestamo-select" class="input-text"></select>
+                                        <span style="font-size: 0.7rem;">Socio</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="tipo_prestamo" id="socio-prestamo-tipo" class="input-text">
+                                            <option value="1">Prestamo Personal (Prestamo Personal sin Garantia )</option>
+                                            <option value="2">Prestamo Hipotecario (Prestamo Hipotecario para Vivienda)</option>
+                                        </select>
+                                        <span style="font-size: 0.7rem;">Tipo de Ahorro</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="monto" type="text" id="socio-edit-ahorro-monto" class="input-text" required>
+                                        <span style="font-size: 0.7rem;">Monto del Ahorro (En Guaraníes)</span>
+                                    </div>
+        
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Cargar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------------- CARGA DE PAGO --------------------------------------->
+
+        <div class="window-overlay window-pago hidden" style="background-color: rgba(0, 0, 0, 0.5);">
+            <div class="window socio-vista" style="
+                height: max-content;
+                ">
+                <div class="window-title">
+                    <span>Cargar Pago</span>
+                    <button>
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="window-content" style="height: calc(100% - 50px);">
+                    <div class="content-socio-edit" style="height: 100%;">
+                        <form action="/pagos" method="post" autocomplete="off" id="socio-edit-form" enctype="multipart/form-data" style="height: 100%;">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div style="font-weight: 300; font-size: 1.25rem; margin-bottom: 5px;">
+                                        Datos del Pago
+                                    </div>
+
+                                    <input type="text" hidden autocomplete="false">
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="socio" id="socio-pago-prestamo-select" class="input-text"></select>
+                                        <span style="font-size: 0.7rem;">Socio</span>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <select name="id_prestamo" id="socio-prestamo-disponible" class="input-text"></select>
+                                        <span style="font-size: 0.7rem;">Prestamos del Socio</span>
+                                    </div>
+        
+                                    <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+                                        <input name="monto" type="text" id="socio-pago-monto" class="input-text" required>
+                                        <span style="font-size: 0.7rem;">Monto del Pago (En Guaraníes)</span>
+                                    </div>
+        
+                                </div>
+    
+                                <style>
+                                    :root {
+                                        --input-width: 100%;
+                                    }
+    
+                                    .input-text {
+                                        width: var(--input-width); 
+                                        align-self: start; 
+                                        border: none; 
+                                        border-bottom: 1px solid black; 
+                                        outline: none;
+                                    }
+                                    
+                                    .select-input {
+                                        width: var(--input-width);
+                                        padding: 0;
+                                        border-radius: 0;
+                                        border: 1px solid;
+                                        border-top: none;
+                                        border-left: none;
+                                        border-right: none;
+                                        outline: none !important;
+                                    }
+                                </style>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row h-50 d-flex align-items-center justify-content-center">
+                                        <button type="submit" style="width: 62.5%;">Cargar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="header">
             <div class="header-title">
@@ -336,10 +712,10 @@
             <div class="header-session">
                 <span class="session-caption">Iniciado como <b><%= usuario.apodo ?? usuario.nombre %></b></span>
                 <div class="session-options hidden" style="z-index: 2;">
-                    <button class="session-options-button">
+                    <!-- <button class="session-options-button">
                         <i class="fas fa-user"></i>
                         Ver Mi Perfil
-                    </button>
+                    </button> -->
                     <button class="session-options-button">
                         <i class="fas fa-cog"></i>
                         Ir a Configuracion
@@ -371,16 +747,16 @@
                 </a>
                 <a href="/socios" class="item-row <%= title == "Socios" ? "item-row-active" : "" %> ">
                     <button>
-                        <i class="fas fa-briefcase"></i>
+                        <i class="fas fa-users"></i>
                         Socios
                     </button>
                 </a>
-                <a href="/movimientos" class="item-row <%= title == "Movimientos" ? "item-row-active" : "" %> ">
+                <!-- <a href="/movimientos" class="item-row <%= title == "Movimientos" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-people-arrows"></i>
                         Movimientos
                     </button>
-                </a>
+                </a> -->
                 <a href="/aportes" class="item-row <%= title == "Aportes" ? "item-row-active" : "" %> ">
                     <button>
                         <i class="fas fa-hand-holding-usd"></i>
@@ -415,10 +791,10 @@
             <div class="sidebar-footer">
                 <span>Cooperativa San Bruno</span>
                 <span>Fundada en 2023</span>
-                <span>Desarrollado por Adrian Ramirez</span>
+                <span>Potenciado por A-bogado S.A.</span>
             </div>
         </div>
-        <div class="content">
+        <div class="content" style="overflow: auto;">
             <%
                 if (title == "Inicio") {
             %>
@@ -480,4 +856,8 @@
 <script src="js/funcionario-vista.js" type="module"></script>
 <script src="js/socio-vista.js" type="module"></script>
 <script src="js/aportes.js"></script>
+<script src="js/ahorros.js"></script>
+<script src="js/prestamos.js"></script>
+<script src="js/pago-prestamos.js"></script>
+<script src="js/preferencias.js"></script>
 </html>

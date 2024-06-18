@@ -1,7 +1,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
+            <th>N° Socio</th>
             <th>Cod. Aporte</th>
+            <th>Nombre del Aportante</th>
             <th>Fecha</th>
             <th>Monto</th>
         </tr>
@@ -11,7 +13,9 @@
             for (const aporte of aportes) {
         %>
             <tr>
+                <td><b><%= aporte.Socio_Id %></b></td>
                 <td><b><%= aporte.Id_aporte %></b></td>
+                <td><%= aporte.nombre + ", " + aporte.apellido %></td>
                 <td><%= aporte.Fecha %></td>
                 <td><%= aporte.Monto %></td>
             </tr>

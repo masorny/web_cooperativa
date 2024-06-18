@@ -244,3 +244,7 @@ html, body {
     border-bottom: 1px solid var(--universal-border-color-125);
     margin-bottom: 25px;
 }
+
+.content-main {
+    height: max-content !important;
+}

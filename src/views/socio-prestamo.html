@@ -1,0 +1,28 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>N° Socio</th>
+            <th>Cod. Prestamo</th>
+            <th>Nombre del Socio</th>
+            <th>Fecha</th>
+            <th>Tipo Prestamo</th>
+            <th>Monto</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            for (const prestamo of prestamos) {
+        %>
+            <tr>
+                <td><b><%= prestamo.Socio_id %></b></td>
+                <td><b><%= prestamo.Id_prestamo %></b></td>
+                <td><%= prestamo.nombre + ", " + prestamo.apellido %></td>
+                <td><%= prestamo.Fecha %></td>
+                <td><%= prestamo.Tipo_prestamo %></td>
+                <td><%= prestamo.Monto %></td>
+            </tr>
+        <%
+            }
+        %>
+    </tbody>
+</table>

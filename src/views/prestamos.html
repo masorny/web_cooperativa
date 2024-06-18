@@ -6,11 +6,16 @@
         <div class="data-search" style="width: 100%; height: 150px; border: 1px solid rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center;">
             <div style="width: 90%; margin-bottom: 5px; display: flex; flex-direction: column;">
                 <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                    <input name="apodo" type="text" id="funcionario-edit-alias" class="input-text">
+                    <input name="apodo" type="text" id="socio-prestamo-busqueda" class="input-text">
                     <span style="font-size: 0.7rem;">Nombre, CI, N° de Socio o N° de Cuenta</span>
                 </div>
-                <button style="align-self: end; border: 1px solid rgba(0, 0, 0, 0.25);">Consultar</button>
+
+                <div style="align-self: flex-end;">
+                    <button style="align-self: end; border: 1px solid rgba(0, 0, 0, 0.25);" id="socio-prestamo-crear">Cargar Prestamo</button>
+                    <button style="align-self: end; border: 1px solid rgba(0, 0, 0, 0.25);" id="socio-prestamo-buscar">Consultar</button>
+                </div>
             </div>
         </div>
     </div>
+    <div class="content-main-data resultado-prestamos" style="margin-top: 40px;"></div>
 </div>

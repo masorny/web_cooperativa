@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>N° Socio</th>
+            <th>Cod. Ahorro</th>
+            <th>Nombre del Socio</th>
+            <th>Tipo de Ahorro</th>
+            <th>Monto</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            for (const ahorro of ahorros) {
+        %>
+            <tr>
+                <td><b><%= ahorro.Socio_id %></b></td>
+                <td><b><%= ahorro.Id_ahorro %></b></td>
+                <td><%= ahorro.nombre + ", " + ahorro.apellido %></td>
+                <td><%= ahorro.Tipo_ahorro %></td>
+                <td><%= ahorro.Monto %></td>
+            </tr>
+        <%
+            }
+        %>
+    </tbody>
+</table>

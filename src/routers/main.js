@@ -29,12 +29,28 @@ function initializeRoute(router, database) {
     };
 
     // Pagina de login.
-    router.get("/", (req, res, next) => {
+    router.get("/", async (req, res, next) => {
         /* if (validateSession(req, res, next)) {
             res.status(301).redirect("/inicio");
         } */
 
-        res.render("index.html");
+        const token = req.cookies["Authorization"];
+        
+        if (token) {
+            const session = decryptSession(token);
+
+            if (!session) {
+                return res.render("index.html", { config: {} });
+            }
+
+            const usuario = await getUser(session.id);
+
+            const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
+
+            return res.render("index.html", { config });
+        }
+
+        res.render("index.html", { config: {} });
     });
     
     // Recibe el login del funcionario.
@@ -75,8 +91,6 @@ function initializeRoute(router, database) {
             clave: form["clave"],
             claveConfirmacion: form["claveConfirmacion"]
         };
-
-        console.log(datos);
 
         var existe = (await database.query(`select * from usuario where cod_autorizacion = ${datos.cod_autorizacion}`)).first();
 
@@ -131,10 +145,12 @@ function initializeRoute(router, database) {
     
         const session = decryptSession(token);
         const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id_usuario}`)).first();
     
         res.render("dashboard.html", {
             usuario, 
-            firstStep: parseBoolean( usuario.primera_vez )
+            firstStep: parseBoolean( usuario.primera_vez ),
+            config
         });
     });
     
@@ -144,6 +160,7 @@ function initializeRoute(router, database) {
     
         const session = decryptSession(token);    
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         if (usuario.primera_vez == 1) {
             return res.redirect("/inicio");
@@ -154,7 +171,8 @@ function initializeRoute(router, database) {
         res.render("dashboard.html", {
             title: "Lista de Funcionarios",
             usuario,
-            funcionarios
+            funcionarios,
+            config
         });
     });
 
@@ -244,6 +262,7 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);    
         const usuario = (await database.query(`select * from usuario where id_usuario = ${session.id}`)).first();
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id_usuario}`)).first();
 
         if (usuario.primera_vez == 1) {
             return res.redirect("/inicio");
@@ -251,7 +270,8 @@ function initializeRoute(router, database) {
     
         res.render("dashboard.html", {
             title: "Sobre Nosotros",
-            usuario
+            usuario,
+            config
         });
     });
     
@@ -260,6 +280,7 @@ function initializeRoute(router, database) {
     
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         if (usuario.primera_vez == 1) {
             return res.redirect("/inicio");
@@ -267,8 +288,30 @@ function initializeRoute(router, database) {
     
         res.render("dashboard.html", {
             title: "Mis Preferencias",
-            usuario
+            usuario,
+            config
         });
+    });
+
+    router.post("/configuracion", validateSession, async (req, res) => {
+        const token = req.cookies["Authorization"];
+
+        const session = decryptSession(token);
+        const usuario = await getUser(session.id);
+
+        const datos = req.body;
+        const temaColor = datos["theme"];
+
+        const existe = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
+
+        if (existe) {
+            await database.query(`update usuario_config set color_tema = ${temaColor} where id_usuario = ${usuario.id}`);
+        }
+        else {
+            await database.query(`insert into usuario_config(id_usuario, color_tema) values (${usuario.id}, ${temaColor})`);
+        }
+
+        res.status(301).redirect("/configuracion");
     });
     
     router.get("/perfil", validateSession, async (req, res) => {
@@ -320,11 +363,32 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         res.render("dashboard.html", {
             title: "Aportes",
-            usuario
+            usuario,
+            config
         });
+    });
+
+    router.post("/aportes", validateSession, async (req, res) => {
+        const form = req.body;
+
+        const datos = {
+            id: form["socio"],
+            monto: form["monto"]
+        };
+
+        if (datos.id != undefined) {
+            const fecha_actual = new Date(),
+            formatNumber = (x) => x < 10 ? `0${x}` : x,
+            formato_fecha_actual = `${formatNumber(fecha_actual.getDate())}-${formatNumber(fecha_actual.getMonth() + 1)}-${fecha_actual.getFullYear()}`;
+
+            await database.query(`insert into aporte(Socio_Id, Monto, Fecha) values(${datos.id}, ${datos.monto}, '${formato_fecha_actual}')`);
+        }
+
+        return res.status(301).redirect("/aportes");
     });
 
     router.get("/ahorros", validateSession, async (req, res) => {
@@ -332,11 +396,29 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         res.render("dashboard.html", {
             title: "Ahorros",
-            usuario
+            usuario,
+            config
         });
+    });
+
+    router.post("/ahorros", validateSession, async (req, res) => {
+        const form = req.body;
+
+        const datos = {
+            id: form["socio"],
+            tipo_ahorro: form["tipo_ahorro"],
+            monto: form["monto"]
+        };
+
+        if (datos.id != undefined) {
+            await database.query(`insert into ahorro(Socio_id, Monto, Tipo_ahorro_id) values(${datos.id}, ${datos.monto}, ${datos.tipo_ahorro})`);
+        }
+
+        return res.status(301).redirect("/ahorros");
     });
 
     router.get("/prestamos", validateSession, async (req, res) => {
@@ -344,11 +426,35 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         res.render("dashboard.html", {
             title: "Prestamos",
-            usuario
+            usuario,
+            config
         });
+    });
+
+    router.post("/prestamos", validateSession, async (req, res) => {
+        const form = req.body;
+
+        const datos = {
+            id: form["socio"],
+            tipo_prestamo: form["tipo_prestamo"],
+            monto: form["monto"]
+        };
+
+        if (datos.id != undefined) {
+            const fecha_actual = new Date(),
+            formatNumber = (x) => x < 10 ? `0${x}` : x,
+            formato_fecha_actual = `${formatNumber(fecha_actual.getDate())}-${formatNumber(fecha_actual.getMonth() + 1)}-${fecha_actual.getFullYear()}`;
+
+            console.log(`values(${datos.id}, ${datos.monto}, '${formato_fecha_actual}', ${datos.tipo_prestamo})`);
+
+            await database.query(`insert into prestamo(Socio_id, Monto, Fecha, Tipo_prestamo_id) values(${datos.id}, ${datos.monto}, '${formato_fecha_actual}', ${datos.tipo_prestamo})`);
+        }
+
+        return res.status(301).redirect("/prestamos");
     });
 
     router.get("/pagos", validateSession, async (req, res) => {
@@ -356,11 +462,30 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         res.render("dashboard.html", {
             title: "Pagos",
-            usuario
+            usuario,
+            config
         });
+    });
+
+    router.post("/pagos", validateSession, async (req, res) => {
+        const form = req.body;
+
+        const datos = {
+            id_prestamo: form["id_prestamo"],
+            monto: form["monto"]
+        };
+
+        const fecha_actual = new Date(),
+        formatNumber = (x) => x < 10 ? `0${x}` : x,
+        formato_fecha_actual = `${formatNumber(fecha_actual.getDate())}-${formatNumber(fecha_actual.getMonth() + 1)}-${fecha_actual.getFullYear()}`;
+
+        await database.query(`insert into pago_prestamo(Fecha, Monto, Prestamo_Id) values('${formato_fecha_actual}', ${datos.monto}, ${datos.id_prestamo})`);
+
+        return res.status(301).redirect("/pagos");
     });
 
     router.get("/socios", validateSession, async (req, res) => {
@@ -368,13 +493,15 @@ function initializeRoute(router, database) {
 
         const session = decryptSession(token);
         const usuario = await getUser(session.id);
+        const config = (await database.query(`select * from usuario_config where id_usuario = ${usuario.id}`)).first();
 
         const socios = (await database.query("select * from socio")).all();
 
         res.render("dashboard.html", {
             title: "Socios",
             usuario,
-            socios
+            socios,
+            config
         });
     });
 
@@ -385,14 +512,25 @@ function initializeRoute(router, database) {
         const socio = (await database.query(`select * from socio where Id_socio = ${id}`)).first();
 
         const datos = {
-            nombre: distinct(form["nombre"], socio.nombre),
-            apellido: distinct(form["apellido"], socio.apellido),
-            direccion: distinct(form["direccion"], socio.direccion),
-            ciudad: distinct(form["ciudad"], socio.ciudad),
-            cedula: distinct(form["cedula"], socio.cedula),
-            correo: distinct(form["correo"], socio.correo),
-            telefono: distinct(form ["telefono"], socio.telefono)
+            nombre: distinct(form["nombre"], socio?.nombre),
+            apellido: distinct(form["apellido"], socio?.apellido),
+            direccion: distinct(form["direccion"], socio?.direccion),
+            ciudad: distinct(form["ciudad"], socio?.ciudad),
+            cedula: distinct(form["cedula"], socio?.cedula),
+            correo: distinct(form["correo"], socio?.correo),
+            telefono: distinct(form ["telefono"], socio?.telefono)
         };
+
+        if (id == -1) {
+            const fecha_actual = new Date(),
+            formatNumber = (x) => x < 10 ? `0${x}` : x,
+            formato_fecha_actual = `${formatNumber(fecha_actual.getDate())}-${formatNumber(fecha_actual.getMonth() + 1)}-${fecha_actual.getFullYear()}`;
+
+            await database.query(`
+                insert into socio(nombre, apellido, direccion, ciudad, cedula, correo, telefono, fecha_ingreso) values 
+                ('${datos.nombre}', '${datos.apellido}', '${datos.direccion}', '${datos.ciudad}', ${datos.cedula}, '${datos.correo}', ${datos.telefono}, '${formato_fecha_actual}')
+            `);
+        }
 
         var qSql = [];
 
@@ -424,7 +562,66 @@ function initializeRoute(router, database) {
             aportes = (await database.query(`${qSql} where Socio_Id = ${busqueda} or cedula = ${busqueda}`)).all();
         }
 
+        aportes = aportes.sort((a, b) => b.Id_aporte - a.Id_aporte);
+
         res.render("socio-aporte.html", { aportes });
+    });
+
+    router.get("/obtenerAhorro", validateApiSession, async (req, res) => {
+        const busqueda = req.query.busqueda;
+
+        var ahorros, qSql = `select * from ahorro a
+            inner join tipo_ahorro ta on ta.Id_tipo_ahorro = a.Tipo_ahorro_id
+            inner join socio s on s.Id_socio = a.Socio_id`;
+
+        if (!busqueda.match(/^\d+$/g)) {
+            ahorros = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
+        }
+        else {
+            ahorros = (await database.query(`${qSql} where Socio_Id = ${busqueda} or cedula = ${busqueda}`)).all();
+        }
+
+        ahorros = ahorros.sort((a, b) => a.Id_ahorro - b.Id_ahorro);
+
+        res.render("socio-ahorro.html", { ahorros });
+    });
+
+    router.get("/obtenerPrestamo", validateApiSession, async (req, res) => {
+        const busqueda = req.query.busqueda;
+
+        var prestamos, qSql = `select * from prestamo p
+            inner join tipo_prestamo tp on p.Tipo_prestamo_id = tp.Id_tipo_prestamo
+            inner join socio s on p.Socio_id = s.Id_socio`;
+
+        if (!busqueda.match(/^\d+$/g)) {
+            prestamos = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
+        }
+        else {
+            prestamos = (await database.query(`${qSql} where Socio_Id = ${busqueda} or cedula = ${busqueda}`)).all();
+        }
+
+        prestamos = prestamos.sort((a, b) => a.Id_prestamo - b.Id_prestamo);
+
+        res.render("socio-prestamo.html", { prestamos });
+    });
+
+    router.get("/obtenerPagoPrestamo", validateApiSession, async (req, res) => {
+        const busqueda = req.query.busqueda;
+
+        var pagoPrestamos, qSql = `select *, pp.Monto as MontoPagado from pago_prestamo pp
+            inner join prestamo p on p.Id_prestamo = pp.Prestamo_Id
+            inner join socio s on s.Id_socio = p.Socio_id`;
+
+        if (!busqueda.match(/^\d+$/g)) {
+            pagoPrestamos = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
+        }
+        else {
+            pagoPrestamos = (await database.query(`${qSql} where Socio_Id = ${busqueda} or cedula = ${busqueda}`)).all();
+        }
+
+        pagoPrestamos = pagoPrestamos.sort((a, b) => a.Id_pago_prestamo - b.Id_pago_prestamo);
+
+        res.render("socio-pago-prestamo.html", { pago_prestamos: pagoPrestamos });
     });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -508,6 +705,24 @@ function initializeRoute(router, database) {
         var socio = (await database.query(`select * from socio where Id_socio = ${idSocio}`)).first();
 
         res.json(socio);
+    });
+
+    router.get("/api/socios", validateApiSession, async (req, res) => {
+        const socios = (await database.query("select * from socio")).all();
+
+        res.json(socios);
+    });
+
+    router.get("/api/socioPrestamo", validateApiSession, async (req, res) => {
+        const id = req.query.id;
+
+        const prestamos = (await database.query(`select * from prestamo p
+            inner join tipo_prestamo tp on p.Tipo_prestamo_id = tp.Id_tipo_prestamo
+            inner join socio s on p.Socio_id = s.Id_socio
+            where Socio_id = ${id}
+        `)).all();
+
+        res.json(prestamos);
     });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

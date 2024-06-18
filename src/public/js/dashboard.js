@@ -8,9 +8,9 @@ $(".session-options-button").click(function(e) {
     const index = $(".session-options .session-options-button").index(e.target);
 
     const Botones = {
-        MiPerfil: 0,
-        Configuracion: 1,
-        CerrarSesion: 2
+        /* MiPerfil: 0, */
+        Configuracion: 0,
+        CerrarSesion: 1
     }
 
     switch(index) {
