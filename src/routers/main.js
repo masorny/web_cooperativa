@@ -570,9 +570,7 @@ function initializeRoute(router, database) {
     router.get("/obtenerAhorro", validateApiSession, async (req, res) => {
         const busqueda = req.query.busqueda;
 
-        var ahorros, qSql = `select * from ahorro a
-            inner join tipo_ahorro ta on ta.Id_tipo_ahorro = a.Tipo_ahorro_id
-            inner join socio s on s.Id_socio = a.Socio_id`;
+        var ahorros, qSql = `select * from v_ahorro`;
 
         if (!busqueda.match(/^\d+$/g)) {
             ahorros = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
@@ -589,9 +587,7 @@ function initializeRoute(router, database) {
     router.get("/obtenerPrestamo", validateApiSession, async (req, res) => {
         const busqueda = req.query.busqueda;
 
-        var prestamos, qSql = `select * from prestamo p
-            inner join tipo_prestamo tp on p.Tipo_prestamo_id = tp.Id_tipo_prestamo
-            inner join socio s on p.Socio_id = s.Id_socio`;
+        var prestamos, qSql = `select * from v_prestamo`;
 
         if (!busqueda.match(/^\d+$/g)) {
             prestamos = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
@@ -608,9 +604,7 @@ function initializeRoute(router, database) {
     router.get("/obtenerPagoPrestamo", validateApiSession, async (req, res) => {
         const busqueda = req.query.busqueda;
 
-        var pagoPrestamos, qSql = `select *, pp.Monto as MontoPagado from pago_prestamo pp
-            inner join prestamo p on p.Id_prestamo = pp.Prestamo_Id
-            inner join socio s on s.Id_socio = p.Socio_id`;
+        var pagoPrestamos, qSql = `select * from v_pago_socio`;
 
         if (!busqueda.match(/^\d+$/g)) {
             pagoPrestamos = (await database.query(`${qSql} where (nombre || ' ' || apellido) like '%${busqueda}%'`)).all();
